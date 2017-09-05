@@ -1,0 +1,56 @@
+desc:ply: 5.1 output router
+version: 1.0
+author: Paweł Łyżwa (ply)
+
+in_pin: L
+in_pin: R
+in_pin: C
+in_pin: LFE
+in_pin: Ls
+in_pin: Rs
+
+out_pin: 1
+out_pin: 2
+out_pin: 3
+out_pin: 4
+out_pin: 5
+out_pin: 6
+out_pin: 7
+out_pin: 8
+out_pin: 9
+out_pin: 10
+out_pin: 11
+out_pin: 12
+out_pin: 13
+out_pin: 14
+out_pin: 15
+out_pin: 16
+
+slider1:1<0,16,1{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>L
+slider2:2<0,16,1{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>R
+slider3:3<0,16,1{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>C
+slider4:4<0,16,1{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>LFE
+slider5:5<0,16,1{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Ls
+slider6:6<0,16,1{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Rs
+
+@init
+INs = 6;
+OUTs = 16;
+
+@slider
+
+@block
+
+@sample
+// initialize output array
+i=0; while(i<OUTs) ( o[i]=0; i+=1 );
+
+// route
+i=0; 
+while(i<=INs) ( 
+  slider(i+1) ? o[slider(i+1)-1] += spl(i);   
+  i+=1;
+);
+
+// process output array
+i=0; while(i<OUTs) ( spl(i)=o[i]; i+=1 );
