@@ -1,0 +1,101 @@
+version: 0.1
+desc: ply: Output switcher
+author: Paweł Łyżwa
+
+// (c) 2015, Pawel Lyzwa.
+
+// NO WARRANTY IS GRANTED. THIS PLUG-IN IS PROVIDED ON AN "AS IS" BASIS, WITHOUT
+// WARRANTY OF ANY KIND. NO LIABILITY IS GRANTED, INCLUDING, BUT NOT LIMITED TO,
+// ANY DIRECT OR INDIRECT,  SPECIAL,  INCIDENTAL OR CONSEQUENTIAL DAMAGE ARISING
+// OUT OF  THE  USE  OR INABILITY  TO  USE  THIS PLUG-IN,  COMPUTER FAILTURE  OF
+// MALFUNCTION INCLUDED.  THE USE OF THE SOURCE CODE,  EITHER  PARTIALLY  OR  IN
+// TOTAL, IS ONLY GRANTED,  IF USED IN THE SENSE OF THE AUTHOR'S INTENTION,  AND
+// USED WITH ACKNOWLEDGEMENT OF THE AUTHOR. FURTHERMORE IS THIS PLUG-IN A  THIRD
+// PARTY CONTRIBUTION,  EVEN IF INCLUDED IN REAPER(TM),  COCKOS INCORPORATED  OR
+// ITS AFFILIATES HAVE NOTHING TO DO WITH IT.  LAST BUT NOT LEAST, BY USING THIS
+// PLUG-IN YOU RELINQUISH YOUR CLAIM TO SUE IT'S AUTHOR, AS WELL AS THE CLAIM TO
+// ENTRUST SOMEBODY ELSE WITH DOING SO.
+
+slider1:0<0,7,1{1,2,3,4,5,6,7,8}>Output
+
+in_pin:L
+in_pin:R
+
+out_pin:1L
+out_pin:1R
+out_pin:2L
+out_pin:2R
+out_pin:3L
+out_pin:3R
+out_pin:4L
+out_pin:4R
+out_pin:5L
+out_pin:5R
+out_pin:6L
+out_pin:6R
+out_pin:7L
+out_pin:7R
+out_pin:8L
+out_pin:8R
+
+@init
+d = 1/(srate*0.008);
+i = 0;
+while (i<8) (
+  o[i] = slider1 == i ? 1 : 0;
+  do[i] = 0;
+  i+=1;
+);
+  
+
+@slider
+slider1 = floor(slider1);
+i = 0;
+while (i<8) (
+  do[i] = slider1 == i ? d : -d;
+  i+=1;
+);
+t = 0;
+
+
+@block
+/* NOT WORKING :(
+i = 0;
+while (i<8) (
+  trigger >> 1;
+  ((trigger & 1) == 1) ? (
+    slider1 = i;
+    sliderchange(slider1);
+    i = 1000;
+  ) : i+=1;
+);
+trigger = 0;
+*/
+
+@sample
+i = 0;
+while (i<8) (
+  o[i] = min(max(o[i] + do[i], 0),1);
+  spl(2*i) = o[i]*spl0;
+  spl(2*i+1) = o[i]*spl1;
+  i+=1;
+);
+
+/*
+spl0=o[0]*spl0;
+spl1=o[0]*spl1;
+spl2=o[1]*spl0;
+spl3=o[1]*spl1;
+spl4=o[2]*spl0;
+spl5=o[2]*spl1;
+spl6=o[3]*spl0;
+spl7=o[3]*spl1;
+spl8=o[4]*spl0;
+spl9=o[4]*spl1;
+spl10=o[5]*spl0;
+spl11=o[5]*spl1;
+spl12=o[6]*spl0;
+spl13=o[6]*spl1;
+spl14=o[7]*spl0;
+spl15=o[7]*spl1;
+*/
