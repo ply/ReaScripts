@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts"/>
+<index version="1" name="ply Scripts" commit="f79ce1d12ab92daafe66a4493033252fc75a8a5c">
+  <category name="FX">
+    <reapack name="ply_output_switcher.jsfx" type="effect" desc="ply: Output switcher">
+      <version name="0.1" author="Paweł Łyżwa" time="2017-09-05T15:01:46Z">
+        <source>https://github.com/ply/ReaScripts/raw/f79ce1d12ab92daafe66a4493033252fc75a8a5c/FX/ply_output_switcher.jsfx</source>
+      </version>
+    </reapack>
+  </category>
+</index>
