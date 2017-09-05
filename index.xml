@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="db7ff8b19bf84a2d9d4bd0774b1a223e6a4245f3">
+<index version="1" name="ply Scripts" commit="e82024e40f05b70cc323cba7a39c2852d920671c">
   <category name="Utility">
+    <reapack name="ply_5.1 output router.jsfx" type="effect" desc="ply: 5.1 output router">
+      <version name="1.0" author="Paweł Łyżwa (ply)" time="2017-09-05T16:11:09Z">
+        <source>https://github.com/ply/ReaScripts/raw/e82024e40f05b70cc323cba7a39c2852d920671c/Utility/ply_5.1%20output%20router.jsfx</source>
+      </version>
+    </reapack>
     <reapack name="ply_output_switcher.jsfx" type="effect" desc="ply: Output switcher">
       <version name="0.1" author="Paweł Łyżwa" time="2017-09-05T15:16:17Z">
         <source>https://github.com/ply/ReaScripts/raw/db7ff8b19bf84a2d9d4bd0774b1a223e6a4245f3/Utility/ply_output_switcher.jsfx</source>
