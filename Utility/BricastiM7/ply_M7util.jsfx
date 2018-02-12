@@ -1,0 +1,515 @@
+desc:Bricasti M7 v2 utility (ply)
+version: 0.1alpha
+author: Paweł Łyżwa (ply)
+about:
+  # Bricasti M7 v2 utility (alpha!)
+  
+  Tool for controling parameters of this wonderful reverb 
+  using MIDI SysEx commands. Protocol was reverse-engineered,
+  and some of the bytes are still mysterious. Use at your own risk.
+  
+  Usage:
+    * clicking on preset name (top left corner) reloads data from memory
+    * clicking on an asterisk in top right corner sends data to MIDI output,
+      however in not correct format probably
+    * to change parameter click and drag vertically, or use scroll
+  
+  What works:
+    * decoding reverb algorithm parameters
+    * recalling settings got earlier from the hardware
+  
+  What doesn't work:
+    * presets saved by user
+    * checksum
+    * no bank+version validation
+
+changelog:
+  - first, test version
+	
+provides:
+	[data] M7v2.reabank
+
+slider1: 0<0,136,1>-Reverb Time
+slider2: 0<0, 30,1>-Reverb Size
+slider3: 0<0, 85,1>-Pre Delay
+slider4: 0<0, 10,1>-Reverb Diffusion
+slider5: 0<0, 10,1>-Reverb Density
+slider6: 0<0, 11,1>-Reverb Modulation
+slider7: 0<0, 70,1>-Rolloff
+slider8: 0<0, 16,1>-HF RT Multiply
+slider9: 0<0, 36,1>-HF RT Crossover
+slider10:0<0, 56,1>-LF RT Multiply
+slider11:0<0, 26,1>-LF RT Crossover
+slider12:0<0, 20,1>-VLF Cut
+slider13:0<0, 40,1>-Early/Reverb Mix
+slider14:0<0, 70,1>-Early Rolloff
+slider15:0<0, 31,1>-Early Select
+slider16:2<2,34,2>-v1: 2, v2: 8, nonlin: 34
+slider17:0<0, 18,1>-Delay Level
+slider18:0<0,122,1>-Delay Time
+slider19:8<8,  8,1>-? // bank number
+slider20:0<0, 12,1>-Delay Modulation
+
+slider30:0<0,1,1{No,Yes}>Read and load data from MIDI input
+slider31:0<0,1,1{No,Yes}>MIDI through
+slider32:0<0,1,1{No,Yes}>Send all changes
+slider33:1<0,1,1{No,Yes}>Verbose mode
+
+in_pin:none
+out_pin:none
+
+// -------------------------------------------------------------------
+//  init  ------------------------------------------------------------
+
+@serialize
+file_string(0, #sysex);
+
+@init
+// string ids
+preset = 1;
+
+// SysEx format:
+sysex_len = 157;
+// heading (8 bytes)
+  #head="\xF0\x00\x62\x63\x70\x08\x01\x00";
+// 16 bytes of program name, filled with spaces (0x20)
+// 52 bytes of user saved preset info (not implemented)
+  // first 21 bytes represent saved preset name: (hex)
+  //  0X0X 0X0X 0X0X 0X0X 0X0X 0X0X 0X0X 0X0X
+  //  0000 0000 0X
+  // where X forms 6-bit letter codes in 4-bit groups 
+  // character set: _&0-9A-Za-z, where '_' is space
+// 26 constatnt bytes
+  const1offset = 8+16+26;
+  #const1 = "";
+  loop(14, #const1+="\x00");
+  const1 += "\x00\x0b\x00\x00\x00\x00\x08\x02\x00\x03\x00\x01";
+// 40 bytes - 20 parameters, 
+//    ^ check functions param_str, raw2int & int2raw
+  paramoffset=100;
+  paramn=20;
+// 6 bytes
+  const2offset=140;
+  #const2="\x00\x00\x00\x00\x00\x02";
+// 10 unknown bytes (incl. checksum?)
+
+// tail (1 byte)
+  #tail="\xF7";
+// END of SysEx format
+
+strlen(#sysex)!=sysex_len ? : (
+  #sysex=#head;
+  loop(16, #sysex+=" ");
+  loop(52, #sysex+=" ");
+  #sysex+=#const1;
+  loop(12+paramn*2, #sysex+="\x00");
+  #sysex+=#const2;
+  loop(10, #sysex+="\x00");
+  #sysex+=#tail;
+);
+
+device_params[paramn];
+
+// -------------------------------------------------------------------
+//  helper functions  ------------------------------------------------
+
+
+function raw2int(r) ( (r >> 8) << 4 + r % (1<<8); );
+function int2raw(i) ( (i >> 4) << 8 + i % (1<<4); );
+function param_str(str, param_id, value_id)
+( // if value_id == -2 returns maximum possible value+1;
+  s = str;
+  v = value_id;
+
+  param_id == 1 ? (
+    v== -1 ?s="Reverb time     " :
+    v== -2 ?s=136:
+    v  <55 ? sprintf(s, "%d.%02d Sec", (v+4)/20, ((v+4)*5)%100):
+    v  <86 ? sprintf(s, "%d.%d  Sec", 3+(v-55)/10, (v-55)%10):
+    v <106 ? sprintf(s, "%d.%d  Sec", 6+(v-86)/5, ((v-86)*2)%10):
+    v <126 ? sprintf(s, "%d.%d Sec", 10+(v-106)/2, (5*(v-106))%10):
+    v <137 ? sprintf(s, "%.1f Sec", 20+v-126):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 2 ? (
+    v== -1 ?s="Size            " :
+    v== -2 ?s=30:
+    v==  0 ?s="Small   ":
+    v== 30 ?s="Large   ":
+    v  <31 ? sprintf(s, "%2d", v):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 3 ? (
+    v== -1 ?s="Pre Delay       " :
+    v== -2 ?s=85:
+    v  <20 ? sprintf(s, "%3d mSec", v*2):
+    v  <35 ? sprintf(s, "%3d mSec", 40+(v-20)*4):
+    v  <86 ? sprintf(s, "%3d mSec", 100+(v-35)*8):
+          sprintf(s, "[ovr:%3d]", v); 
+  ):  
+  param_id == 4 ? (
+    v== -1 ?s="Diffusion       " :
+    v== -2 ?s=10:
+    v==  0 ?s="Low     ":
+    v== 10 ?s="High    ":
+    v  <10 ? sprintf(s, "%d", v):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 5 ? (
+    v== -1 ?s="Density         " :
+    v== -2 ?s=10:
+    v==  0 ?s="Low     ":
+    v== 10 ?s="High    ":
+    v  <10 ? sprintf(s, "%d", v):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 6 ? (
+    v== -1 ?s="Modulation      " :
+    v== -2 ?s=12:
+    v==  0 ?s="Off     ":
+    v==  1 ?s="Low     ":
+    v== 12 ?s="High    ":
+    v  <12 ? sprintf(s, "%2d", v-1):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 7 ? (
+    v== -1 ?s="Rolloff         " :
+    v== -2 ?s=70:
+    v   <8 ? sprintf(s, "%5d Hz", 80+v*40):
+    v  <13 ? sprintf(s, "%5d Hz", 400+(v-8)*80):
+    v  <19 ? sprintf(s, "%5d Hz", 800+(v-13)*200):
+    v  <70 ? sprintf(s, "%5d Hz", 2000+(v-19)*400):
+    v== 70 ? s="Full":
+    sprintf(s, "[ovr:%d]", v);
+  ):  
+  param_id == 8 ? (
+    v== -1 ?s="HF RT Multiply  " :
+    v== -2 ?s=16:
+    v  <17 ? sprintf(s, "%d.%02d X", (20+5*v)/100, (20+5*v)%100):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 9 ? (
+    v== -1 ?s="HF RT Crossover " :
+    v== -2 ?s=36:
+    v   <5 ? sprintf(s, "%5d Hz", 200+v*40):
+    v  <10 ? sprintf(s, "%5d Hz", 400+(v-5)*80):
+    v  <16 ? sprintf(s, "%5d Hz", 800+(v-10)*200):
+    v  <21 ? sprintf(s, "%5d Hz", 2000+(v-16)*400):
+    v  <37 ? sprintf(s, "%5d Hz", 4000+(v-21)*800):
+    sprintf(s, "[ovr:%d]", v);
+  ): 
+  param_id == 10 ? (
+    v== -1 ?s="LF RT Multiply  " :
+    v== -2 ?s=56:
+    v  <36 ? sprintf(s, "%d.%02d X", (20+5*v)/100, (20+5*v)%100):
+    v  <57 ? sprintf(s, "%d.%02d X", (20+v-36)/10, (v-36)%10*10):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 11 ? (
+    v== -1 ?s="LF RT Crossover " :
+    v== -2 ?s=26:
+    v   <8 ? sprintf(s, "%5d Hz", 80+v*40):
+    v  <13 ? sprintf(s, "%5d Hz", 400+(v-8)*80):
+    v  <19 ? sprintf(s, "%5d Hz", 800+(v-13)*200):
+    v  <27 ? sprintf(s, "%5d Hz", 2000+(v-19)*400):
+    sprintf(s, "[ovr:%d]", v);
+  ): 
+  param_id == 12 ? (
+    v== -1 ?s="VLF Cut         " :
+    v== -2 ?s=20:
+    v  <21 ? sprintf(s, "%3ddB", v-20):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 13 ? (
+    v== -1 ?s="Early/Reverb Mix" :
+    v== -2 ?s=40:
+    v  <20 ? sprintf(s, "%2d <> 20", v):
+    v  <41 ? sprintf(s, "20 <> %2d", 40-v):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 14 ? (
+    v== -1 ?s="Early Rolloff   " :
+    v== -2 ?s=70:
+    v   <8 ? sprintf(s, "%5d Hz", 80+v*40):
+    v  <13 ? sprintf(s, "%5d Hz", 400+(v-8)*80):
+    v  <19 ? sprintf(s, "%5d Hz", 800+(v-13)*200):
+    v  <70 ? sprintf(s, "%5d Hz", 2000+(v-19)*400):
+    v== 70 ? s="Full":
+    sprintf(s, "[ovr:%d]", v);
+  ): 
+  param_id == 15 ? (
+    v== -1 ?s="Early select    " :
+    v== -2 ?s=31:
+    v  <32 ? sprintf(s, "%2d", v):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 16 ? ( // ??
+    v== -1 ?s="(algorithm)     " :
+    v== -2 ?s=34:
+    v==  2 ? s = "V1" :
+    v== 18 ? s = "V2" :
+    v== 34 ? s = "V2NonLin" :
+          sprintf(s, "[bad:%3d]", v);
+  ):
+  param_id == 17 ? (
+    v== -1 ?s="Delay Level     " :
+    v== -2 ?s=18:
+    v==  0 ?s="Off     ":
+    v  <19 ? sprintf(s, "%3ddB", v-21):
+          sprintf(s, "[ovr:%3d]", v);
+  ):
+  param_id == 18 ? (
+    v== -1 ?s="Delay Time      " :
+    v== -2 ?s=15:
+    v <122 ? sprintf(s, "%d mSec", 100+v*8):
+          sprintf(s, "[ovr:%3d]", v);
+  ): 
+  param_id == 19 ? ( // ??
+    v== -1 ?s="(Bank)          " :
+    v== -2 ?s=10:
+    v==  0 ? s = "Halls   " :
+    v==  1 ? s = "Plates  " :
+    v==  2 ? s = "Roomes  " :
+    v==  3 ? s = "Chambers" : 
+    v==  4 ? s = "Ambience" :
+    v==  5 ? s = "Spaces  " :
+    v==  6 ? s = "Halls 2 " :
+    v==  7 ? s = "Plates 2" :
+    v==  8 ? s = "Rooms 2 " : 
+    v==  9 ? s = "Spaces 2" :
+    v== 10 ? s = "NonLin  " :
+          sprintf(s, "[bad:%3d]", v);
+  ): 
+  param_id == 20 ? (
+    v== -1 ?s="Delay Modulation" :
+    v== -2 ?s=11:
+    v==  0 ?s="Off":
+    v==  1 ?s="Low":
+    v  <11 ? sprintf(s, "%d", v-1):
+    v== 11 ?s="High":
+    sprintf(s, "[ovr:%d]", v);
+  ):
+  param_id == 0 ? (
+    v!=  0 ?s="----------------" :
+            s="--------";
+  ): 
+  sprintf(s, "[unknown]");
+  s;
+);
+
+function check_modified()
+(
+  modified = 0;
+  i = 1;
+  while(
+    slider(i) != device_params[i] ? modified = i;
+    i+=1;
+    i<=paramn && !modified;
+  );
+);
+
+function load_sysex()
+(
+  slidx = 1;
+  stridx = paramoffset;
+  strcpy_substr(preset, #sysex, 8, 16);
+  loop(paramn, 
+    value = raw2int(str_getchar(#sysex, stridx, 'Su'));
+    slider(slidx) = value;
+    sliderchange(slidx);
+    slidx+=1;
+    stridx+=2;  
+  );
+);
+
+// -------------------------------------------------------------------
+//  FX  --------------------------------------------------------------
+
+@slider
+check_modified();
+
+@block
+
+// Send MIDI data.................................
+send_sysex || (slider32 && modified) ? (
+  // TODO: doesn't work. Checksum not implemented etc.
+  i=0; offset = paramoffset;
+  modified ? (
+    loop(paramn, 
+      i+=1;
+      device_params[i] = slider(i);
+      str_setchar(#sysex, offset, int2raw(device_params[i]), 'Su');
+      offset+=2;
+    );
+  );
+  midisend_str(0,#sysex);
+  modified = 0;
+  send_sysex = 0;
+);
+
+// Receive MIDI data..............................
+while (midirecv_str(0,#str)) (
+  slider31 ? midisend_str(0,#str); // MIDI through
+  slider30 ? ( // load data
+    strncmp(#str, #head, strlen(#head)) == 0 ? (
+      #sysex = #str;
+      load_sysex();
+      i=1;
+      loop(paramn,
+        device_params[i] = slider(i);
+        i+=1;
+      );
+      modified=0;
+    );
+  );
+);
+
+@sample
+
+// -------------------------------------------------------------------
+//  GUI  -------------------------------------------------------------
+
+@gfx 200 550
+  // setup........................................
+  lineh = 17; //20;
+  texth = 13; //15;
+  x1 = 8; x2 = 180; y1 = 8; y2 = y1+lineh;
+  gfx_setfont(1, "Courier", texth, 'b');
+  gfx_r=0.95; gfx_g=0.1; gfx_b=0.1;
+  
+  // mouse down/drag..............................
+  mouse_cap&1 == 1 ? (
+    prev_mouse_cap&1 == 0 ? (
+      // left mouse button clicked
+      (mouse_y - y2) % lineh < texth ? (
+        clicked_param = floor((mouse_y - y2)/lineh);
+        clicked_param > paramn ? clicked_param = 0;
+      ) : (
+        clicked_param = 0;
+      );
+      mouse_down1_x = mouse_x;
+      mouse_down1_y = mouse_y;
+      param_orig_val = slider(clicked_param);
+    ) : (
+      // during drag
+      clicked_param > 0 ? (
+        new_value = param_orig_val + floor((mouse_down1_y-mouse_y)/3);
+        new_value < 0 ? new_value = 0;
+        new_value = min(new_value, param_str(#, clicked_param, -2));
+        slider(clicked_param) = new_value;
+        sliderchange(clicked_param);
+        check_modified();
+      );
+    );
+  );
+  
+  // mouse up/click handling......................
+  mouse_cap&1 == 0 && prev_mouse_cap&1 == 1 
+      && clicked_param == -1 ? (
+    gfx_measurestr(preset, x, y);
+    x1a = x1+x;
+    mouse_down1_x > x1 && mouse_x > x1 
+        && mouse_down1_x < x1a && mouse_x < x1a ? (
+      // click on preset name
+      i = 0;
+      loop(paramn, 
+        i+=1;
+        slider(i) = device_params[i];
+        sliderchange(i);
+        check_modified();
+      );
+    );
+    gfx_measurestr("1234567*", x, y);
+    x2a = x2+x;
+    mouse_down1_x > x2 && mouse_x > x2 
+      && mouse_down1_x < x2a && mouse_x < x2a ? (
+        send_sysex = 1;
+    );
+  );  
+   
+  // scroll.......................................
+  mouse_wheel ? (
+    (mouse_y - y2) % lineh < texth ? (
+      param = floor((mouse_y - y2)/lineh);
+      param > paramn ? param = 0;
+    ) : (
+      param = 0;
+    );
+    param ? (
+      new_value = slider(param) + floor(mouse_wheel/6);
+      new_value < 0 ? new_value = 0;
+      new_value = min(new_value, param_str(#, param, -2));
+      slider(param) = new_value;
+      sliderchange(param);
+      check_modified();
+    );
+      
+  );
+  
+  // .............................................
+  prev_mouse_x = mouse_x;
+  prev_mouse_y = mouse_y;
+  prev_mouse_cap = mouse_cap;
+  mouse_wheel = 0;
+    
+  // display text.................................
+  gfx_x=x1;
+  gfx_y=y1;
+  gfx_drawstr(preset);
+  gfx_x=x2;
+  modified ? gfx_drawstr("       *");
+  i=0; gfx_y=y2;
+  loop(paramn+1,
+    gfx_x = x1;
+    gfx_drawstr(param_str(#,i,-1));
+    gfx_x = x2;
+    gfx_drawstr(param_str(#,i,slider(i)));
+    slider33 ? ( // verbose mode
+      gfx_x = x2+90; 
+      gfx_drawstr(sprintf(#, " [%3d]", slider(i)));
+    );
+    i+=1; gfx_y+=lineh;
+  );
+  // invalid data info
+  strcpy_substr(#s, #sysex, const1offset, strlen(#const1));
+  strcmp(#s, #const1) ? (
+    gfx_x=x1; gfx_y+=lineh;
+    gfx_drawstr(sprintf(#, "invalid data@0x%2x:", const1offset));
+    i=0;
+    loop(strlen(#const1)/2,
+      i%16 == 0 ? ( gfx_x=x1; gfx_y+=lineh; );
+      gfx_drawstr(sprintf(#, " %04x", str_getchar(#s, i, 'Su')));
+      i+=2;
+    );
+  );
+  strcpy_substr(#s, #sysex, const2offset, strlen(#const2));
+    strcmp(#s, #const2) ? (
+      gfx_x=x1; gfx_y+=lineh;
+      gfx_drawstr(sprintf(#, "invalid data@0x%2x:", const2offset));
+      i=0;
+      loop(strlen(#const2)/2,
+        gfx_drawstr(sprintf(#, " %04x", str_getchar(#s, i, 'Su')));
+        i+=2;
+      );
+    );
+  // unknown data
+  slider33 ? (
+    gfx_x=x1; gfx_y+=lineh;
+    a=8+16; n=52;
+    gfx_drawstr(sprintf(#, "0x%02x: ", a));
+    i=0;
+    loop(n/2,
+      i%16 == 0 ? ( gfx_x=x1; gfx_y+=lineh; );
+      gfx_drawstr(sprintf(#, " %04x", str_getchar(#sysex, a+i, 'Su')));
+      i+=2;
+    );
+    gfx_x=x1; gfx_y+=lineh;
+    a=146; n=10;
+    gfx_drawstr(sprintf(#, "0x%02x:", a));
+    i=0;
+    loop(n/2,
+      i%16 == 0 ? ( gfx_x=x1; gfx_y+=lineh; );
+      gfx_drawstr(sprintf(#, " %04x", str_getchar(#sysex, a+i, 'Su')));
+      i+=2;
+    );
+  );

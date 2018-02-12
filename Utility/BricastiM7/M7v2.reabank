@@ -1,0 +1,164 @@
+// Bricasti M7 v2
+
+Bank 0 0 Halls 
+     0 Large Hall 
+     1 Medium Hall 
+     2 Small Hall 
+     3 Large & Near 
+     4 Medium & Near
+     5 Small & Near 
+     6 Large & Dark 
+     7 Large & Deep 
+     8 Medium & Deep 
+     9 Concert Hall 
+    10 Gold Hall 
+    11 Clear Hall 
+    12 Brass Hall 
+    13 Amsterdam Hall 
+    14 Berliner Hall 
+    15 Boston Hall A 
+    16 Boston Hall B 
+    17 Chicago Hall
+    18 Vienna Hall
+    19 Worcester Hall
+    20 The ArchDuke
+    21 Sandors Hall
+    22 Troy Hall 
+    23 Saint Sylvan 
+    24 Mechanics Hall
+    25 Saint Gerold
+    26 Pepes Hall A
+    27 Pepes Hall B
+    28 Refect Hall A
+    29 Reflect Hall B
+    30 Piano Hall
+ 
+Bank 1 0 Plates
+
+Bank 2 0 Rooms
+     0 Studio A
+     1 Studio B Close 
+     2 Studio B far 
+     3 Studio C 
+     4 Studio D
+     5 Studio E
+     6 Deep Stone 
+     7 Music Room 
+     8 Heavy Room 
+     9 Large Wooden 
+    10 Small Wooden 
+    11 Large Tiled 
+    12 Medium Tiled 
+    13 Small Tiled 
+    14 Drum & Chamber
+    15 Diagnose Room 
+    16 Small Vox 
+    17 Glass Room 
+    18 Percussion Rm 
+    19 Marble Foyer
+    20 Large Q Room 
+    21 Small Q Room 
+    22 Large Red Room 
+    23 Red Room 
+    24 Blue Room
+    25 Large Room
+    26 Small Room
+    27 Front Room
+    28 Center Room
+    29 Back Room
+    30 Studio K
+    31 Waits Room
+    32 Corn Room
+    33 Oakland Room
+    34 SF Perf Room
+    35 Long Wood Room
+
+Bank 3 0 Chambers
+Bank 4 0 Ambience
+Bank 5 0 Spaces
+
+Bank 6 0 Halls 2
+     0 Large Hall 
+     1  Large & Stage 
+     2  Medium Hall 
+     3  Medium & Stage 
+     4  Small Hall 
+     5  Small & Stage 
+     6  Large Church 
+     7  Small Church 
+     8  Jazz Hall 
+     9  West Hall 
+    10  Concert A
+    11  Concert B
+    12  Live Hall
+    13  Koncert Piano
+    14  Berliner Hall
+
+Bank 7 0 Plates 2
+Bank 8 0 Rooms 2
+Bank 9 0 Spaces 2
+Bank 10 0 NonLin
+     0  Nonlin A
+     1  Nonlin B
+     2  Nonlin C
+     3  Nonlin D
+
+Bank 118 0 Edit
+
+Bank 119 0 Favorites
+	 0  F1
+	 1  F2
+	 2  F3
+	 3  F4
+
+Bank 120 0 Registers
+	 0	Bank 0 Register	0
+	 1	Bank 0 Register	1
+	 2	Bank 0 Register	2
+	 3	Bank 0 Register	3
+	 4	Bank 0 Register	4
+	 5	Bank 0 Register	5
+	 6	Bank 0 Register	6
+	 7	Bank 0 Register	7
+	 8	Bank 0 Register	8
+	 9	Bank 0 Register	9
+	10	Bank 1 Register	0
+	11	Bank 1 Register	1
+	12	Bank 1 Register	2
+	13	Bank 1 Register	3
+	14	Bank 1 Register	4
+	15	Bank 1 Register	5
+	16	Bank 1 Register	6
+	17	Bank 1 Register	7
+	18	Bank 1 Register	8
+	19	Bank 1 Register	9
+	20	Bank 2 Register	0
+	21	Bank 2 Register	1
+	22	Bank 2 Register	2
+	23	Bank 2 Register	3
+	24	Bank 2 Register	4
+	25	Bank 2 Register	5
+	26	Bank 2 Register	6
+	27	Bank 2 Register	7
+	28	Bank 2 Register	8
+	29	Bank 2 Register	9
+	30	Bank 3 Register	0
+	31	Bank 3 Register	1
+	32	Bank 3 Register	2
+	33	Bank 3 Register	3
+	34	Bank 3 Register	4
+	35	Bank 3 Register	5
+	36	Bank 3 Register	6
+	37	Bank 3 Register	7
+	38	Bank 3 Register	8
+	39	Bank 3 Register	9
+	40	Bank 4 Register	0
+	41	Bank 4 Register	1
+	42	Bank 4 Register	2
+	43	Bank 4 Register	3
+	44	Bank 4 Register	4
+	45	Bank 4 Register	5
+	46	Bank 4 Register	6
+	47	Bank 4 Register	7
+	48	Bank 4 Register	8
+	49	Bank 4 Register	9
