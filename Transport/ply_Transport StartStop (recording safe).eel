@@ -1,15 +1,17 @@
 /* 
 @description Transport: play/stop (recording safe)
-@version 1
+@version 1.1
 @author Paweł Łyżwa (ply)
 @about
   # Transport: play/stop (recording safe)
   If executed during recording asks for confirmation.
-@changelog Initial release
+@changelog stop creating undo points
 */
 
+Undo_BeginBlock();
 safe = 1;
 (GetPlayState() & 4) ? ( // is recording?
 	ShowMessageBox("Are you sure?", "Transport",  4) == 7 ? safe = 0;
 );
 safe ? Main_OnCommand(40044, 0); // Transport: play/stop
+Undo_EndBlock("Transport: start/stop (safe)", 0);
