@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="3042c4866cee72a198038ebbc770cb5a1a6b3213">
+<index version="1" name="ply Scripts" commit="c8a0d5e6628f3afbbbdcddc4b788c6225744e4cf">
+  <category name="Transport">
+    <reapack name="ply_Transport StartStop (recording safe).eel" type="script" desc="Transport: play/stop (recording safe)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Transport: play/stop (recording safe)\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 If executed during recording asks for confirmation.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1" author="Paweł Łyżwa (ply)" time="2018-03-16T17:27:40Z">
+        <changelog><![CDATA[Initial release]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/f999b777ca95e02ef3919447f7387bade3bee97a/Transport/ply_Transport%20StartStop%20(recording%20safe).eel</source>
+      </version>
+      <version name="1.1" author="Paweł Łyżwa (ply)" time="2018-05-11T21:14:10Z">
+        <changelog><![CDATA[stop creating undo points]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c8a0d5e6628f3afbbbdcddc4b788c6225744e4cf/Transport/ply_Transport%20StartStop%20(recording%20safe).eel</source>
+      </version>
+    </reapack>
+  </category>
   <category name="Utility">
     <reapack name="ply_5.1 output router.jsfx" type="effect" desc="ply: 5.1 output router">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2017-09-05T16:11:09Z">
@@ -15,6 +37,34 @@
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2017-09-05T16:18:20Z">
         <changelog><![CDATA[+ Initial release]]></changelog>
         <source main="main">https://github.com/ply/ReaScripts/raw/3042c4866cee72a198038ebbc770cb5a1a6b3213/Utility/ply_put%20T%20marker.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Utility/BricastiM7">
+    <reapack name="ply_M7util.jsfx" type="effect" desc="Bricasti M7 v2 utility (ply)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Bricasti M7 v2 utility (alpha!)\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Tool for controling parameters of this wonderful reverb using MIDI SysEx commands. Protocol was reverse-engineered, and some of the bytes are still mysterious. Use at your own risk.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Usage:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab clicking on preset name (top left corner) reloads data from memory\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab clicking on an asterisk in top right corner sends data to MIDI output, however in not correct format probably\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab to change parameter click and drag vertically, or use scroll\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 What works:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab decoding reverb algorithm parameters\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab recalling settings got earlier from the hardware\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 What doesn't work:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab presets saved by user\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab checksum\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab no bank+version validation\sa180\par}
+}
+]]></description>
+      </metadata>
+      <version name="0.1alpha" author="Paweł Łyżwa (ply)" time="2018-02-12T21:02:39Z">
+        <source>https://github.com/ply/ReaScripts/raw/6fe1e2a3372a6d3601f92f1b7714877a041e86dd/Utility/BricastiM7/ply_M7util.jsfx</source>
       </version>
     </reapack>
   </category>
