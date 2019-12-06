@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="903f429465ef4a589ba2c72927fdb02d191267c2">
+<index version="1" name="ply Scripts" commit="59437daaa4c9db9e2737e8975933d60ec84cfa73">
   <category name="Transport">
     <reapack name="ply_Transport StartStop (recording safe).eel" type="script" desc="Transport: play/stop (recording safe)">
       <metadata>
@@ -19,6 +19,10 @@
       <version name="1.1" author="Paweł Łyżwa (ply)" time="2018-05-11T21:14:10Z">
         <changelog><![CDATA[stop creating undo points]]></changelog>
         <source main="main">https://github.com/ply/ReaScripts/raw/c8a0d5e6628f3afbbbdcddc4b788c6225744e4cf/Transport/ply_Transport%20StartStop%20(recording%20safe).eel</source>
+      </version>
+      <version name="1.2" author="Paweł Łyżwa (ply)" time="2019-12-06T01:14:48Z">
+        <changelog><![CDATA[fix not creating undo points]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/59437daaa4c9db9e2737e8975933d60ec84cfa73/Transport/ply_Transport%20StartStop%20(recording%20safe).eel</source>
       </version>
     </reapack>
   </category>
