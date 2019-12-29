@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="78b1486d57bd6474f30cb19c8459bb00bfaf0429">
+<index version="1" name="ply Scripts" commit="a69912f54bc40617d6a63400dc6d5d73549b6e23">
   <category name="Transport">
     <reapack name="ply_Transport StartStop (recording safe).eel" type="script" desc="Transport: play/stop (recording safe)">
       <metadata>
@@ -75,6 +75,18 @@
       </metadata>
       <version name="0.1alpha" author="Paweł Łyżwa (ply)" time="2018-02-12T21:02:39Z">
         <source>https://github.com/ply/ReaScripts/raw/6fe1e2a3372a6d3601f92f1b7714877a041e86dd/Utility/BricastiM7/ply_M7util.jsfx</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="View">
+    <reapack name="ply_Horizontal zoom in (center at edit cursor).eel" type="script" desc="Horizontal zoom in (center at edit cursor)">
+      <version name="1.0" author="Paweł Łyżwa (ply)" time="2019-12-29T20:13:02Z">
+        <source main="main">https://github.com/ply/ReaScripts/raw/a69912f54bc40617d6a63400dc6d5d73549b6e23/View/ply_Horizontal%20zoom%20in%20(center%20at%20edit%20cursor).eel</source>
+      </version>
+    </reapack>
+    <reapack name="ply_Horizontal zoom out (center at edit cursor).eel" type="script" desc="Horizontal zoom out (center at edit cursor)">
+      <version name="1.0" author="Paweł Łyżwa (ply)" time="2019-12-29T20:13:02Z">
+        <source main="main">https://github.com/ply/ReaScripts/raw/a69912f54bc40617d6a63400dc6d5d73549b6e23/View/ply_Horizontal%20zoom%20out%20(center%20at%20edit%20cursor).eel</source>
       </version>
     </reapack>
   </category>
