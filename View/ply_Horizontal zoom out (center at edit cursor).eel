@@ -1,0 +1,7 @@
+/* 
+@description Horizontal zoom out (center at edit cursor)
+@version 1.0
+@author Paweł Łyżwa (ply)
+*/
+
+defer("adjustZoom(-4, 0, 1, 1); UpdateArrange();");
