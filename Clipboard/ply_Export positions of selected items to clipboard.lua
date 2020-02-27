@@ -1,8 +1,9 @@
-/* 
+--[[
 @description Export positions of selected items to clipboard
-@version 1.0
+@version 1.1
 @author Paweł Łyżwa (ply)
-*/
+@changelog fix metadata header comment syntax
+]]--
 
 function time2str (t)
 	return string.format("% 4d:%06.3f", t//60, t%60)
