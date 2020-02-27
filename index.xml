@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="ecfe3cb97ff3e182830d4cc90f089a9c29824621">
+<index version="1" name="ply Scripts" commit="85fcc1605afbcb7d754164455bd1b469ae5c9e0c">
   <category name="Clipboard">
     <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
         <source main="main">https://github.com/ply/ReaScripts/raw/ecfe3cb97ff3e182830d4cc90f089a9c29824621/Clipboard/ply_Export%20positions%20of%20selected%20items%20to%20clipboard.lua</source>
+      </version>
+      <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-02-27T11:54:31Z">
+        <changelog><![CDATA[fix metadata header comment syntax]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/85fcc1605afbcb7d754164455bd1b469ae5c9e0c/Clipboard/ply_Export%20positions%20of%20selected%20items%20to%20clipboard.lua</source>
       </version>
     </reapack>
   </category>
