@@ -1,4 +1,4 @@
--- @description ply: Synchronize and heal selected media items
+-- @description Synchronize and heal selected media items
 -- @version 0.1
 -- @author Paweł Łyżwa (ply)
 -- @changelog

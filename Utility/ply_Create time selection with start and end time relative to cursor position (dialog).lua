@@ -1,4 +1,4 @@
--- @description ply: Create time selection with start and end time relative to cursor position (dialog)
+-- @description Create time selection with start and end time relative to cursor position (dialog)
 -- @version 1.0
 -- @author Paweł Łyżwa (ply)
 -- @changelog
