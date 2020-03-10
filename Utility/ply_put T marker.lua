@@ -1,4 +1,4 @@
--- @description ply: put T marker
+-- @description put T marker
 -- @version 1.0
 -- @author Paweł Łyżwa (ply)
 -- @changelog
