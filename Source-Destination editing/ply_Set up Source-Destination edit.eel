@@ -1,10 +1,10 @@
 /* 
 @description Set up Source-Destination edit
-@version 1.0
+@version 1.1
 @author Paweł Łyżwa (ply)
 @about
   Based on https://forum.cockos.com/showthread.php?t=116213
-@changelog Initial release
+@changelog add cleaning loop & time selection
 */
 
 EnumProjects(-1, #src_filename);
@@ -28,6 +28,9 @@ loop(CountTracks(0),
 	i += 1;
 );
 
+// reset loop, time selection and cusor position
+GetSet_LoopTimeRange(1, 0, 0, 0, 0);
+GetSet_LoopTimeRange(1, 1, 0, 0, 0);
 SetEditCurPos(0, 1, 1);
 
 // put first 10 markers at the start of the project
