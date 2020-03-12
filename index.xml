@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="f169548cd1e454e5cd3076c0e52b5845de8c687f">
+<index version="1" name="ply Scripts" commit="ee6fef7c40d44b13bcc96e8aad9db92e350429cb">
   <category name="Clipboard">
     <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
@@ -29,6 +29,21 @@
       <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-03-11T12:17:52Z">
         <changelog><![CDATA[add cleaning loop & time selection]]></changelog>
         <source main="main">https://github.com/ply/ReaScripts/raw/f169548cd1e454e5cd3076c0e52b5845de8c687f/Source-Destination%20editing/ply_Set%20up%20Source-Destination%20edit.eel</source>
+      </version>
+    </reapack>
+    <reapack name="ply_Source-Destination edit.lua" type="script" desc="Source-Destination edit">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Based on https://forum.cockos.com/showthread.php?t=116213\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-12T11:29:34Z">
+        <changelog><![CDATA[Initial release]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/ee6fef7c40d44b13bcc96e8aad9db92e350429cb/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
       </version>
     </reapack>
   </category>
