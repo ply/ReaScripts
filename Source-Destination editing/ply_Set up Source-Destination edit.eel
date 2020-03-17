@@ -1,10 +1,10 @@
 /* 
 @description Set up Source-Destination edit
-@version 1.1
+@version 1.2
 @author Paweł Łyżwa (ply)
 @about
   Based on https://forum.cockos.com/showthread.php?t=116213
-@changelog add cleaning loop & time selection
+@changelog enable move envelope points with items
 */
 
 EnumProjects(-1, #src_filename);
@@ -14,6 +14,7 @@ Main_openProject(#src_filename);
 Undo_BeginBlock(0);
 
 Main_OnCommand(40310, 0); // Set ripple editing per-track
+!GetToggleCommandState(40070) ? Main_OnCommand(40070, 0); // Set move envelope points with items on
 Main_OnCommand(40753, 0); // Disable snap
 while(DeleteProjectMarkerByIndex(0, 0)); // clear all markers & regions
 
