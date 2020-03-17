@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="9dbfb58d1bef3c20a0d9b52d55d3f29b1e56be5a">
+<index version="1" name="ply Scripts" commit="07cf5ff86ea1cde572e6f405165caf4bf6fbe5fb">
   <category name="Clipboard">
     <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
@@ -52,6 +52,18 @@
     </reapack>
   </category>
   <category name="Transport">
+    <reapack name="ply_Play by loop pre-roll value from loop end (or current cursor position if no selection).lua" type="script" desc="Play by loop pre-roll value from loop start (or current cursor position if no selection)">
+      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-17T18:18:48Z">
+        <changelog><![CDATA[Initial release]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/07cf5ff86ea1cde572e6f405165caf4bf6fbe5fb/Transport/ply_Play%20by%20loop%20pre-roll%20value%20from%20loop%20end%20(or%20current%20cursor%20position%20if%20no%20selection).lua</source>
+      </version>
+    </reapack>
+    <reapack name="ply_Play by loop pre-roll value from loop start (or current cursor position if no selection).lua" type="script" desc="Play by loop pre-roll value from loop start (or current cursor position if no selection)">
+      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-17T18:18:48Z">
+        <changelog><![CDATA[Initial release]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/07cf5ff86ea1cde572e6f405165caf4bf6fbe5fb/Transport/ply_Play%20by%20loop%20pre-roll%20value%20from%20loop%20start%20(or%20current%20cursor%20position%20if%20no%20selection).lua</source>
+      </version>
+    </reapack>
     <reapack name="ply_Transport StartStop (recording safe).eel" type="script" desc="Transport: play/stop (recording safe)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
