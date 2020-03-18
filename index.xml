@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="07cf5ff86ea1cde572e6f405165caf4bf6fbe5fb">
+<index version="1" name="ply Scripts" commit="34a8e0f9f6507cd7a342b977e411ee4b0aa2407b">
   <category name="Clipboard">
     <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
@@ -48,6 +48,12 @@
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-12T11:29:34Z">
         <changelog><![CDATA[Initial release]]></changelog>
         <source main="main">https://github.com/ply/ReaScripts/raw/ee6fef7c40d44b13bcc96e8aad9db92e350429cb/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
+      </version>
+      <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-03-18T15:31:20Z">
+        <changelog><![CDATA[- fix behaviour when it's space between items in time selection in destination project
+- remove SWS dependency
+- prevent unnecessary UI refreshing]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/34a8e0f9f6507cd7a342b977e411ee4b0aa2407b/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
       </version>
     </reapack>
   </category>
