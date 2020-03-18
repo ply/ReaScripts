@@ -1,10 +1,13 @@
 --[[ 
 @description Source-Destination edit
-@version 1.0
+@version 1.1
 @author Paweł Łyżwa (ply)
 @about
   Based on https://forum.cockos.com/showthread.php?t=116213
-@changelog Initial release
+@changelog 
+ - fix behaviour when it's space between items in time selection in destination project
+ - remove SWS dependency
+ - prevent unnecessary UI refreshing
 ]]--
 
 -- Uncomment to set crossfade length [s]
@@ -18,6 +21,13 @@ if not XFADE_LEN then
 	XFADE_LEN = tonumber(defsplitxfadelen)
 end
 
+function insert_empty_item(track, start, end_)
+	item = reaper.AddMediaItemToTrack(track)
+	reaper.SetMediaItemPosition(item, start, false)
+	reaper.SetMediaItemLength(item, end_-start, false)
+	return item
+end
+
 src_proj = reaper.EnumProjects(0)
 dst_proj = reaper.EnumProjects(-1)
 if dst_proj == src_proj then
@@ -26,17 +36,17 @@ if dst_proj == src_proj then
 	dst_proj = reaper.EnumProjects(i-1)
 end
 
+reaper.PreventUIRefresh(1);
+
 -- copy items from source project
 reaper.SelectProjectInstance(src_proj)
 reaper.Undo_BeginBlock2(src_proj)
 start, end_ = reaper.GetSet_LoopTimeRange2(src_proj, false, false, 0, 0, false)
 reaper.InsertTrackAtIndex(0, false)
 track0 = reaper.GetTrack(src_proj, 0)
-item = reaper.AddMediaItemToTrack(track0)
-reaper.SetMediaItemPosition(item, start, false)
-reaper.SetMediaItemLength(item, end_-start, false)
+insert_empty_item(track0, start, end_)
 reaper.Main_OnCommand(40717, 0) -- Select all items in current time selection
-reaper.Main_OnCommand(reaper.NamedCommandLookup("_BR_FOCUS_ARRANGE_WND"), 0) -- SWS/BR: Focus arrange
+reaper.SetCursorContext(1, 0) -- focus the arrange window
 reaper.Main_OnCommand(41383, 0) -- Copy items/tracks/envelope points (depending on focus) within time selection, if any (smart copy)
 reaper.DeleteTrack(track0)
 reaper.Undo_EndBlock2(src_proj, "Source-Destination edit (source)", -1)
@@ -51,12 +61,20 @@ end
 -- paste items to destination project
 reaper.SelectProjectInstance(dst_proj)
 reaper.Undo_BeginBlock2(dst_proj)
-reaper.SelectAllMediaItems(dst_proj, false) -- unselect all items
-reaper.Main_OnCommand(40717, 0) -- Select all items in current time selection 
-reaper.Main_OnCommand(40630, 0) -- Go to start of time selection 
-reaper.Main_OnCommand(reaper.NamedCommandLookup("_XENAKIOS_TSADEL"), 0) -- Xenakios/SWS: Time selection adaptive delete
 reaper.InsertTrackAtIndex(0, false)
 track0 = reaper.GetTrack(dst_proj, 0)
+start, end_ = reaper.GetSet_LoopTimeRange2(dst_proj, false, false, 0, 0, false)
+if start == end_ then
+	reaper.Main_OnCommand(40182, 0) -- Select all items
+	reaper.Main_OnCommand(40757, 0) -- Split items at edit cursor (no change selection)
+else
+	insert_empty_item(track0, start, end_)
+	reaper.Main_OnCommand(40717, 0) -- Select all items in current time selection 
+	reaper.Main_OnCommand(40061, 0) -- Split items at time selection (selects these splitted items)
+	reaper.SetCursorContext(1, 0) -- focus the arrange window
+	reaper.Main_OnCommand(40697, 0) -- Remove items/tracks/envelope points (depending on focus)
+	reaper.SetEditCurPos2(dst_proj, start, true, true)
+end
 reaper.SetOnlyTrackSelected(track0)
 reaper.Main_OnCommand(40058, 0) -- Paste items/tracks
 
@@ -77,6 +95,7 @@ reaper.DeleteTrack(track0)
 for _, track in ipairs(selected_tracks) do reaper.SetTrackSelected(track, true) end
 
 reaper.Undo_EndBlock2(dst_proj, "Source-Destination edit", -1)
+reaper.PreventUIRefresh(-1);
 reaper.UpdateArrange()
 reaper.UpdateTimeline()
 reaper.MarkProjectDirty(dst_proj)
