@@ -1,22 +1,27 @@
 --[[ 
 @description Insert marker with ID larger than 10 at playback position...
-@version 1.0
+@version 1.1
 @author Paweł Łyżwa (ply)
-@changelog Initial version
+@changelog
+ - if there's marker on cursor position, get it's name as default
+ - workaround for ' and " in name of last marker
+ - make dialog fields bigger
+ - change field separator from , to \n
+ - make all variables local
 ]]--
 
-proj = reaper.EnumProjects(-1)
-pos = (reaper.GetPlayState() == 0) and reaper.GetCursorPosition() or reaper.GetPlayPosition()
+local proj = reaper.EnumProjects(-1)
+local pos = (reaper.GetPlayState() == 0) and reaper.GetCursorPosition() or reaper.GetPlayPosition()
 
-_, num_markers, num_regions = reaper.CountProjectMarkers(proj)
-markers = {}
-name = ""
+local _, num_markers, num_regions = reaper.CountProjectMarkers(proj)
+local markers = {}
+local name = ""
 for i = 0, (num_markers+num_regions-1) do
-	_, isrgn, mpos, _, mname, mid = reaper.EnumProjectMarkers(i)
+	local _, isrgn, mpos, _, mname, mid = reaper.EnumProjectMarkers(i)
 	if not isrgn then 
 		table.insert(markers, mid)
-		-- set `name` to name of last region before `pos`
-		if mpos < pos then
+		-- set `name` to name of last region before or on `pos`
+		if mpos <= pos then
 			name = mname
 		end
 	end
@@ -24,7 +29,7 @@ end
 table.sort(markers)
 
 -- find first unused id larger than 10
-id = 11
+local id = 11
 for _, v in ipairs(markers) do
 	if id == v then 
 		id = id + 1
@@ -33,9 +38,25 @@ for _, v in ipairs(markers) do
 	end
 end
 
-ok, csv = reaper.GetUserInputs("insert marker", 2, "name,ID", name..","..tostring(id))
+-- reaper.GetUserInputs() ignores field separator, when it gets unbalanced ' or "
+-- the hack below appends ' or " to name to retain balance
+local odd = { ["'"] = false, ['"'] = false }
+for char in name:gmatch("['\"]") do
+	odd[char] = not odd[char]
+end
+local append = ""
+for char, put in pairs(odd) do
+	if put then append = append..char end
+end
+if append ~= "" then
+	name = name.." |"..append
+end
+
+local ok, csv = reaper.GetUserInputs("insert marker", 2,
+                                     "name,ID,extrawidth=200,separator=\n",
+                                     name.."\n"..tostring(id))
 if ok then
-	name, id = csv:match("^(.*),%s*(%d+)%s*$")
+	local name, id = csv:match("(.*)\n(.*)")
 	if name == nil or id == nil then
 		reaper.ShowMessageBox("invalid input", "error", 1)
 	else
