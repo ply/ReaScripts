@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="ec401d842a8089839559020f23bf011df49c98a0">
+<index version="1" name="ply Scripts" commit="6b1a26ce03b5030b9797d9faadc42d190f827675">
   <category name="Clipboard">
     <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
@@ -124,6 +124,24 @@
     <reapack name="ply_output_switcher.jsfx" type="effect" desc="Output switcher">
       <version name="0.1" author="Paweł Łyżwa" time="2017-09-05T15:16:17Z">
         <source>https://github.com/ply/ReaScripts/raw/db7ff8b19bf84a2d9d4bd0774b1a223e6a4245f3/Utility/ply_output_switcher.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="ply_Playhead vs selected track items and markers window.lua" type="script" desc="Playhead vs selected track item &amp; markers (window)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Runs a window which shows:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab which item on selected track is under playhead\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab playhead position relative to item's position and source\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab list of markers before playhead (id, name, color, and position relative to playhead)\sa180\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-21T17:33:57Z">
+        <changelog><![CDATA[initial version]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/6b1a26ce03b5030b9797d9faadc42d190f827675/Utility/ply_Playhead%20vs%20selected%20track%20items%20and%20markers%20window.lua</source>
       </version>
     </reapack>
     <reapack name="ply_put T marker.lua" type="script" desc="put T marker">
