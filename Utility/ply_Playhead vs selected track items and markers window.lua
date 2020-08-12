@@ -1,8 +1,8 @@
 --[[
 @description Playhead vs selected track item & markers (window)
-@version 1.0
+@version 1.1
 @author Paweł Łyżwa (ply)
-@changelog initial version
+@changelog add support for default marker color
 @about
   Runs a window which shows:
    - which item on selected track is under playhead
@@ -140,6 +140,7 @@ local function run()
 	set_font() -- because gfx.ext_retina can change
 	handle_mouse_events()
 
+	local default_marker_color = reaper.GetThemeColor("marker", 0)
 	local track = reaper.GetSelectedTrack(0, 0)
 	local pos = (reaper.GetPlayState() == 0) and reaper.GetCursorPosition() or reaper.GetPlayPosition()
 
@@ -219,7 +220,11 @@ local function run()
 		gfx.x = pos_w
 		gfx_rdraw_str("-"..reaper.format_timestr_pos(pos-marker.pos, "", -1))
 		-- color indicator
-		local r, g, b = reaper.ColorFromNative(marker.color)
+		local color = marker.color
+		if color == 0 then
+			color = default_marker_color
+		end
+		local r, g, b = reaper.ColorFromNative(color)
 		gfx_set_color(r/255, g/255, b/255)
 		gfx.x = gfx.x+gfx.measurestr("v")
 		gfx.rect(gfx.x, gfx.y+1, gfx.measurestr("v"), gfx.texth-1)
