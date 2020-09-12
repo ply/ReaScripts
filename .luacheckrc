@@ -1,0 +1,4 @@
+globals = {
+  "reaper",
+  "gfx",
+}

@@ -1,13 +1,9 @@
---[[ 
+--[[
 @description Insert marker with ID larger than 10 at playback position...
-@version 1.1
+@version 1.2
 @author Paweł Łyżwa (ply)
 @changelog
- - if there's marker on cursor position, get it's name as default
- - workaround for ' and " in name of last marker
- - make dialog fields bigger
- - change field separator from , to \n
- - make all variables local
+ - ignore markers with ID < 11 when looking for marker name
 ]]--
 
 local proj = reaper.EnumProjects(-1)
@@ -18,10 +14,10 @@ local markers = {}
 local name = ""
 for i = 0, (num_markers+num_regions-1) do
 	local _, isrgn, mpos, _, mname, mid = reaper.EnumProjectMarkers(i)
-	if not isrgn then 
+	if not isrgn then
 		table.insert(markers, mid)
 		-- set `name` to name of last region before or on `pos`
-		if mpos <= pos then
+		if mpos <= pos and mid > 10 then
 			name = mname
 		end
 	end
@@ -31,7 +27,7 @@ table.sort(markers)
 -- find first unused id larger than 10
 local id = 11
 for _, v in ipairs(markers) do
-	if id == v then 
+	if id == v then
 		id = id + 1
 	elseif id < v then
 		break
