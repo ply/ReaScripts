@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="e721d831d446b487dc7b1e5205854fe1a6711d5b">
+<index version="1" name="ply Scripts" commit="d06c76272af63df200f7d1d472c67e2ab1ce0034">
   <category name="Clipboard">
     <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
@@ -119,6 +119,10 @@
 - change field separator from , to \n
 - make all variables local]]></changelog>
         <source main="main">https://github.com/ply/ReaScripts/raw/ec401d842a8089839559020f23bf011df49c98a0/Utility/ply_Insert%20marker%20with%20ID%20larger%20than%2010%20at%20playback%20position....lua</source>
+      </version>
+      <version name="1.2" author="Paweł Łyżwa (ply)" time="2020-09-12T14:55:55Z">
+        <changelog><![CDATA[- ignore markers with ID < 11 when looking for marker name]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/d06c76272af63df200f7d1d472c67e2ab1ce0034/Utility/ply_Insert%20marker%20with%20ID%20larger%20than%2010%20at%20playback%20position....lua</source>
       </version>
     </reapack>
     <reapack name="ply_output_switcher.jsfx" type="effect" desc="Output switcher">
