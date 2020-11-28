@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="d06c76272af63df200f7d1d472c67e2ab1ce0034">
+<index version="1" name="ply Scripts" commit="27f48df74f709c363db6230485b3075d153b40f8">
   <category name="Clipboard">
     <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
       <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
@@ -12,29 +12,6 @@
     </reapack>
   </category>
   <category name="Source-Destination editing">
-    <reapack name="ply_Set up Source-Destination edit.eel" type="script" desc="Set up Source-Destination edit">
-      <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 Based on https://forum.cockos.com/showthread.php?t=116213\par}
-}
-]]></description>
-      </metadata>
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-10T12:05:31Z">
-        <changelog><![CDATA[Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/41049462fdeed8de21154861e7efa9a8184158da/Source-Destination%20editing/ply_Set%20up%20Source-Destination%20edit.eel</source>
-      </version>
-      <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-03-11T12:17:52Z">
-        <changelog><![CDATA[add cleaning loop & time selection]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/f169548cd1e454e5cd3076c0e52b5845de8c687f/Source-Destination%20editing/ply_Set%20up%20Source-Destination%20edit.eel</source>
-      </version>
-      <version name="1.2" author="Paweł Łyżwa (ply)" time="2020-03-17T10:19:45Z">
-        <changelog><![CDATA[enable move envelope points with items]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/8909f084d25d6bf06bcc60027ac59f4c6b8f9259/Source-Destination%20editing/ply_Set%20up%20Source-Destination%20edit.eel</source>
-      </version>
-    </reapack>
     <reapack name="ply_Source-Destination edit.lua" type="script" desc="Source-Destination edit">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -54,6 +31,13 @@
 - remove SWS dependency
 - prevent unnecessary UI refreshing]]></changelog>
         <source main="main">https://github.com/ply/ReaScripts/raw/34a8e0f9f6507cd7a342b977e411ee4b0aa2407b/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
+      </version>
+      <version name="1.2" author="Paweł Łyżwa (ply)" time="2020-11-28T14:49:10Z">
+        <changelog><![CDATA[- include setup script in the package and convert it to Lua
+- setup: save source project first
+- setup: don't insert any markers]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/27f48df74f709c363db6230485b3075d153b40f8/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
+        <source main="main" file="ply_Source-Destination setup.lua">https://github.com/ply/ReaScripts/raw/27f48df74f709c363db6230485b3075d153b40f8/Source-Destination%20editing/ply_Source-Destination%20setup.lua</source>
       </version>
     </reapack>
   </category>
