@@ -1,13 +1,11 @@
 --[[
 @description Source-Destination edit
-@version 1.2
+@version 1.2.1
 @author Paweł Łyżwa (ply)
 @about
   Based on https://forum.cockos.com/showthread.php?t=116213
 @changelog
-  - include setup script in the package and convert it to Lua
-  - setup: save source project first
-  - setup: don't insert any markers
+  - setup: warn before saving destination project
 @provides
   [main] ply_Source-Destination edit.lua
   [main] ply_Source-Destination setup.lua

@@ -2,9 +2,11 @@
 -- This file is a part of "Source-Destination edit" package by Paweł Łyżwa (ply)
 -- @noindex
 
+local TITLE = "Source-Destination - setup"
+
 local answer = reaper.ShowMessageBox(
 	"In order to make a copy of the project, this script needs to save current project first. Do you want to continue?",
-	"Source-Destination - setup", 4)
+	TITLE, 4)
 
 if answer == 6 then
 	reaper.Main_SaveProject(0, 0)
@@ -46,5 +48,8 @@ if answer == 6 then
 	reaper.UpdateArrange()
 	reaper.MarkProjectDirty(0)
 
+	reaper.ShowMessageBox(
+		"You will be asked to save your destination project. Make sure you don't override existing source project!", 
+		TITLE, 0)
 	reaper.Main_SaveProject(0, 1)
 end
