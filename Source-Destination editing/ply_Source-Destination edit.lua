@@ -1,13 +1,16 @@
---[[ 
+--[[
 @description Source-Destination edit
-@version 1.1
+@version 1.2
 @author Paweł Łyżwa (ply)
 @about
   Based on https://forum.cockos.com/showthread.php?t=116213
-@changelog 
- - fix behaviour when it's space between items in time selection in destination project
- - remove SWS dependency
- - prevent unnecessary UI refreshing
+@changelog
+  - include setup script in the package and convert it to Lua
+  - setup: save source project first
+  - setup: don't insert any markers
+@provides
+  [main] ply_Source-Destination edit.lua
+  [main] ply_Source-Destination setup.lua
 ]]--
 
 -- Uncomment to set crossfade length [s]

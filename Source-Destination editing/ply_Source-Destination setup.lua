@@ -1,0 +1,50 @@
+-- Source-Destination editing setup script
+-- This file is a part of "Source-Destination edit" package by Paweł Łyżwa (ply)
+-- @noindex
+
+local answer = reaper.ShowMessageBox(
+	"In order to make a copy of the project, this script needs to save current project first. Do you want to continue?",
+	"Source-Destination - setup", 4)
+
+if answer == 6 then
+	reaper.Main_SaveProject(0, 0)
+
+	local _, src_filename = reaper.EnumProjects(-1)
+	reaper.Main_OnCommand(41929, 0) -- New project tab ignoring default template
+	reaper.Main_openProject(src_filename)
+
+	reaper.Undo_BeginBlock(0)
+
+	-- Set ripple editing per-track
+	reaper.Main_OnCommand(40310, 0)
+	-- Set move envelope points with items on
+	if reaper.GetToggleCommandState(40070) == 0 then
+		reaper.Main_OnCommand(40070, 0)
+	end
+	-- Disable snap
+	reaper.Main_OnCommand(40753, 0)
+
+	-- clear all markers & regions
+	repeat until not reaper.DeleteProjectMarkerByIndex(0, 0)
+
+	-- delete all items
+	for i = 0, reaper.CountTracks(0)-1 do
+		local track = reaper.GetTrack(0, i)
+		while reaper.CountTrackMediaItems(track) > 0 do
+			local item = reaper.GetTrackMediaItem(track, 0)
+			reaper.DeleteTrackMediaItem(track, item)
+		end
+	end
+
+	-- reset loop, time selection and cusor position
+	reaper.GetSet_LoopTimeRange(1, 0, 0, 0, 0)
+	reaper.GetSet_LoopTimeRange(1, 1, 0, 0, 0)
+	reaper.SetEditCurPos(0, 1, 1)
+
+	reaper.Undo_EndBlock("Set up S/D edit", -1)
+
+	reaper.UpdateArrange()
+	reaper.MarkProjectDirty(0)
+
+	reaper.Main_SaveProject(0, 1)
+end
