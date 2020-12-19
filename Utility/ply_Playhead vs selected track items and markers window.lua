@@ -1,13 +1,34 @@
 --[[
 @description Playhead vs selected track item & markers (window)
-@version 1.1
+@version 1.1.1
 @author Paweł Łyżwa (ply)
-@changelog add support for default marker color
-@about
+@about # Playhead vs selected track item & markers (window)
   Runs a window which shows:
    - which item on selected track is under playhead
    - playhead position relative to item's position and source
    - list of markers before playhead (id, name, color, and position relative to playhead)
+
+  Use a mouse wheel to change font size.
+@screenshot https://ply.github.io/ReaScripts/doc/img/Playhead_vs_selected_track_items_and_markers_window.png
+@changelog
+	- change license to GPL3
+	- add screenshot
+	- add usage information about mouse wheel
+
+Copyright (C) 2020 Paweł Łyżwa
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 ]]--
 
 -- globals ---------------------------------------------------------------------

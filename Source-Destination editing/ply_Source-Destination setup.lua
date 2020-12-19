@@ -1,6 +1,24 @@
--- Source-Destination editing setup script
--- This file is a part of "Source-Destination edit" package by Paweł Łyżwa (ply)
--- @noindex
+--[[
+@noindex
+
+Source-Destination editing setup script
+This file is a part of "Source-Destination edit" package
+
+Copyright (C) 2020 Paweł Łyżwa
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+]]--
 
 local TITLE = "Source-Destination - setup"
 
@@ -49,7 +67,7 @@ if answer == 6 then
 	reaper.MarkProjectDirty(0)
 
 	reaper.ShowMessageBox(
-		"You will be asked to save your destination project. Make sure you don't override existing source project!", 
+		"You will be asked to save your destination project. Make sure you don't override existing source project!",
 		TITLE, 0)
 	reaper.Main_SaveProject(0, 1)
 end
