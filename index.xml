@@ -238,6 +238,25 @@ REAPER
 ply
 }}}
 ).\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Contents\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Items Editing:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Source-Destination edit (package)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Synchronize and heal selected items\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Items Properties:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Export positions of selected items to clipboard (in TSV format)\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Markers:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Insert marker with ID larger than 10 at playback position (dialog)\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Time Selection:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Set time selection relative to edit cursor (dialog)\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Various:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Horizontal zoom in/out (center at edit cursor)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Play by loop pre-roll value from loop start/end (or current cursor position if no selection)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Play/stop (recording safe)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Playhead vs selected track items and markers window\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\f1 BricastiM7} directory containts my attempt to control Bricasti M7 via MIDI. Unfinished, but it might be useful for recalling parameters\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 JSFX:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab 5.1 output router\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab output switcher (1 of 8 channels)\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Install\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The suggested way to install them is to use {\field{\*\fldinst{HYPERLINK "https://reapack.com/"}}{\fldrslt{\ul
 ReaPack
