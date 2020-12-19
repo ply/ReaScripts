@@ -25,11 +25,9 @@ about:
     * no bank+version validation
 
   ![screenshot](https://ply.github.io/ReaScripts/doc/img/M7util.png)
-
 changelog:
   - change license to GPL3
   - add screenshot
-
 provides:
   [data] M7v2.reabank
 

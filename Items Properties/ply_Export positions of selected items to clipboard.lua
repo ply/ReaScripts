@@ -11,7 +11,6 @@
 	 - take name
 	 - source start time
 	 - source end time
-
 @changelog
 	- make description more descriptive
 	- change license to GPL 3

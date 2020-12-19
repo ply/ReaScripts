@@ -30,7 +30,6 @@
   Set cross-fade length by setting `XFADE_LEN` in the script source. Set to `0`
   to disable cross-fades. If not set, uses value from `Preferences -> Project
   -> Media Item Defaults -> Overlap and crossfade items when splitting length`.
-
 @changelog
   - change license to GPL3
   - add documentation
