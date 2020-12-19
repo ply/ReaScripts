@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply ReaScripts" commit="c000beaa5ebfcb710c667e79cf0ad58901bdb033">
+<index version="1" name="ply Scripts" commit="c000beaa5ebfcb710c667e79cf0ad58901bdb033">
   <category name="Items Editing">
     <reapack name="ply_Synchronize and heal selected items.lua" type="script" desc="Synchronize and heal selected media items">
       <version name="0.2.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
