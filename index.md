@@ -1,5 +1,3 @@
-# ply ReaScripts
-
 This is a collection of scripts for [REAPER](http://reaper.fm/) DAW by Paweł Łyżwa ([ply](https://github.com/ply/)).
 
 ## Contents
