@@ -2,8 +2,7 @@
 @description Set time selection with start and end relative to edit cursor (dialog)
 @version 1.0.1
 @author Paweł Łyżwa (ply)
-@about ![screenshot](https://ply.github.io/ReaScripts/doc/img/Set_time_selection relative_to_edit_cursor.png)
-@screenshot https://ply.github.io/ReaScripts/doc/img/Set_time_selection relative_to_edit_cursor.png
+@screenshot https://ply.github.io/ReaScripts/doc/img/Set_time_selection_relative_to_edit_cursor.png
 @changelog
   - rename script
   - change license to GPL 3
