@@ -1,62 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="8ac75b20b1f0fe2e3aa1e366c6b8c57be285aaab">
-  <category name="Clipboard">
-    <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-02-27T11:46:25Z">
-        <source main="main">https://github.com/ply/ReaScripts/raw/ecfe3cb97ff3e182830d4cc90f089a9c29824621/Clipboard/ply_Export%20positions%20of%20selected%20items%20to%20clipboard.lua</source>
-      </version>
-      <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-02-27T11:54:31Z">
-        <changelog><![CDATA[fix metadata header comment syntax]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/85fcc1605afbcb7d754164455bd1b469ae5c9e0c/Clipboard/ply_Export%20positions%20of%20selected%20items%20to%20clipboard.lua</source>
+<index version="1" name="ply ReaScripts" commit="c000beaa5ebfcb710c667e79cf0ad58901bdb033">
+  <category name="Items Editing">
+    <reapack name="ply_Synchronize and heal selected items.lua" type="script" desc="Synchronize and heal selected media items">
+      <version name="0.2.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- change license to GPL3
+- remove "ply: " from description
+- declare all variables local]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Items%20Editing/ply_Synchronize%20and%20heal%20selected%20items.lua</source>
       </version>
     </reapack>
   </category>
-  <category name="Source-Destination editing">
+  <category name="Items Editing/Source-Destination">
     <reapack name="ply_Source-Destination edit.lua" type="script" desc="Source-Destination edit">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Based on https://forum.cockos.com/showthread.php?t=116213\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Source-Destination edit\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 3- & 4-point editing for REAPER. This package is very inspired by {\field{\*\fldinst{HYPERLINK "https://forum.cockos.com/showthread.php?t=116213"}}{\fldrslt{\ul
+pelleke's actions
+}}}
+ (thank you).\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Usage\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 First, open the source project and use {\f1 Source-Destination setup} script. It opens a duplicate of the currently opened project in a new tab (reads last saved version), removes all items, markers and regions and sets all necessary options. It will ask you for a filename to save the destination project.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Use {\f1 Source-Destination edit} to do the actual edits. It can do both 3- and 4-point edits. It copies audio from time selection in source project to:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab time selection in destination project if there is any time selection\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab inserts audio at edit cursor otherwise\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The script assumes the source project to be the leftmost tab, and destination project to be in the currently opened project tab. In case the leftmost tab is opened, it works with the rightmost tab as the destination.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Configuration\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Set cross-fade length by setting {\f1 XFADE_LEN} in the script source. Set to {\f1 0} to disable cross-fades. If not set, uses value from {\f1 Preferences -> Project -> Media Item Defaults -> Overlap and crossfade items when splitting length}.\par}
 }
 ]]></description>
       </metadata>
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-12T11:29:34Z">
-        <changelog><![CDATA[Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/ee6fef7c40d44b13bcc96e8aad9db92e350429cb/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
-      </version>
-      <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-03-18T15:31:20Z">
-        <changelog><![CDATA[- fix behaviour when it's space between items in time selection in destination project
-- remove SWS dependency
-- prevent unnecessary UI refreshing]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/34a8e0f9f6507cd7a342b977e411ee4b0aa2407b/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
-      </version>
-      <version name="1.2" author="Paweł Łyżwa (ply)" time="2020-11-28T14:49:10Z">
-        <changelog><![CDATA[- include setup script in the package and convert it to Lua
-- setup: save source project first
-- setup: don't insert any markers]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/27f48df74f709c363db6230485b3075d153b40f8/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
-        <source main="main" file="ply_Source-Destination setup.lua">https://github.com/ply/ReaScripts/raw/27f48df74f709c363db6230485b3075d153b40f8/Source-Destination%20editing/ply_Source-Destination%20setup.lua</source>
-      </version>
-      <version name="1.2.1" author="Paweł Łyżwa (ply)" time="2020-11-28T14:58:15Z">
-        <changelog><![CDATA[- setup: warn before saving destination project]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/8ac75b20b1f0fe2e3aa1e366c6b8c57be285aaab/Source-Destination%20editing/ply_Source-Destination%20edit.lua</source>
-        <source main="main" file="ply_Source-Destination setup.lua">https://github.com/ply/ReaScripts/raw/8ac75b20b1f0fe2e3aa1e366c6b8c57be285aaab/Source-Destination%20editing/ply_Source-Destination%20setup.lua</source>
+      <version name="1.2.2" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Items%20Editing/Source-Destination/ply_Source-Destination%20edit.lua</source>
       </version>
     </reapack>
   </category>
-  <category name="Transport">
-    <reapack name="ply_Play by loop pre-roll value from loop end (or current cursor position if no selection).lua" type="script" desc="Play by loop pre-roll value from loop start (or current cursor position if no selection)">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-17T18:18:48Z">
-        <changelog><![CDATA[Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/07cf5ff86ea1cde572e6f405165caf4bf6fbe5fb/Transport/ply_Play%20by%20loop%20pre-roll%20value%20from%20loop%20end%20(or%20current%20cursor%20position%20if%20no%20selection).lua</source>
+  <category name="Items Properties">
+    <reapack name="ply_Export positions of selected items to clipboard.lua" type="script" desc="Export positions of selected items to clipboard in TSV format">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Export positions of selected items to clipboard in TSV format\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Columns:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab item position\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab item end (position + length)\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab take name\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab source start time\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab source end time\sa180\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.1.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Items%20Properties/ply_Export%20positions%20of%20selected%20items%20to%20clipboard.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="JSFX/Routing">
+    <reapack name="ply_5.1 output router.jsfx" type="effect" desc="5.1 output router">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 {\cf1 [image: https://ply.github.io/ReaScripts/doc/img/5.1_output_router.png]\cf0}\par}
+}
+]]></description>
+        <link rel="screenshot">https://ply.github.io/ReaScripts/doc/img/5.1_output_router.png</link>
+      </metadata>
+      <version name="1.0.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- change license to GPL3
+- add screenshot]]></changelog>
+        <source>https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/JSFX/Routing/ply_5.1%20output%20router.jsfx</source>
+      </version>
+    </reapack>
+    <reapack name="ply_output_switcher.jsfx" type="effect" desc="Output switcher">
+      <version name="0.1" author="Paweł Łyżwa" time="2020-12-19T13:51:52Z">
+        <source>https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/JSFX/Routing/ply_output_switcher.jsfx</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Markers">
+    <reapack name="ply_Insert marker with ID larger than 10 at playback position (dialog).lua" type="script" desc="Insert marker with ID larger than 10 at playback position (dialog)">
+      <version name="1.2.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- rename script
+- change license to GPL3]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Markers/ply_Insert%20marker%20with%20ID%20larger%20than%2010%20at%20playback%20position%20(dialog).lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Time Selection">
+    <reapack name="ply_Set time selection relative to edit cursor (dialog).lua" type="script" desc="Set time selection with start and end relative to edit cursor (dialog)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 ![screenshot](https://ply.github.io/ReaScripts/doc/img/Set_time_selection relative_to_edit_cursor.png)\par}
+}
+]]></description>
+        <link rel="screenshot">https://ply.github.io/ReaScripts/doc/img/Set_time_selection relative_to_edit_cursor.png</link>
+      </metadata>
+      <version name="1.0.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- rename script
+- change license to GPL 3
+- make all variables local
+- add screenshot]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Time%20Selection/ply_Set%20time%20selection%20relative%20to%20edit%20cursor%20(dialog).lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Various">
+    <reapack name="ply_Horizontal zoom in (center at edit cursor).eel" type="script" desc="Horizontal zoom in (center at edit cursor)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Horizontal zoom meant to be bound to keyboard shortcut. Does NOT add undo point.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- add description
+- change license to GPL3]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Various/ply_Horizontal%20zoom%20in%20(center%20at%20edit%20cursor).eel</source>
+      </version>
+    </reapack>
+    <reapack name="ply_Horizontal zoom out (center at edit cursor).eel" type="script" desc="Horizontal zoom out (center at edit cursor)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Horizontal zoom meant to be bound to keyboard shortcut. Does NOT add undo point.\par}
+}
+]]></description>
+      </metadata>
+      <version name="1.0.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- add description
+- change license to GPL3]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Various/ply_Horizontal%20zoom%20out%20(center%20at%20edit%20cursor).eel</source>
+      </version>
+    </reapack>
+    <reapack name="ply_Play by loop pre-roll value from loop end (or current cursor position if no selection).lua" type="script" desc="Play by loop pre-roll value from loop end (or current cursor position if no selection)">
+      <version name="1.0.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- fix mistake in the description
+- change license to GPL 3
+- make all variables local]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Various/ply_Play%20by%20loop%20pre-roll%20value%20from%20loop%20end%20(or%20current%20cursor%20position%20if%20no%20selection).lua</source>
       </version>
     </reapack>
     <reapack name="ply_Play by loop pre-roll value from loop start (or current cursor position if no selection).lua" type="script" desc="Play by loop pre-roll value from loop start (or current cursor position if no selection)">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-17T18:18:48Z">
-        <changelog><![CDATA[Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/07cf5ff86ea1cde572e6f405165caf4bf6fbe5fb/Transport/ply_Play%20by%20loop%20pre-roll%20value%20from%20loop%20start%20(or%20current%20cursor%20position%20if%20no%20selection).lua</source>
+      <version name="1.0.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- change license to GPL 3
+- make all variables local]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Various/ply_Play%20by%20loop%20pre-roll%20value%20from%20loop%20start%20(or%20current%20cursor%20position%20if%20no%20selection).lua</source>
+      </version>
+    </reapack>
+    <reapack name="ply_Playhead vs selected track items and markers window.lua" type="script" desc="Playhead vs selected track item &amp; markers (window)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Playhead vs selected track item & markers (window)\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Runs a window which shows:\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab which item on selected track is under playhead\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab playhead position relative to item's position and source\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab list of markers before playhead (id, name, color, and position relative to playhead)\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Use a mouse wheel to change font size.\par}
+}
+]]></description>
+        <link rel="screenshot">https://ply.github.io/ReaScripts/doc/img/Playhead_vs_selected_track_items_and_markers_window.png</link>
+      </metadata>
+      <version name="1.1.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[- change license to GPL3
+- add screenshot
+- add usage information about mouse wheel]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Various/ply_Playhead%20vs%20selected%20track%20items%20and%20markers%20window.lua</source>
       </version>
     </reapack>
     <reapack name="ply_Transport StartStop (recording safe).eel" type="script" desc="Transport: play/stop (recording safe)">
@@ -70,95 +196,13 @@
 }
 ]]></description>
       </metadata>
-      <version name="1" author="Paweł Łyżwa (ply)" time="2018-03-16T17:27:40Z">
-        <changelog><![CDATA[Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/f999b777ca95e02ef3919447f7387bade3bee97a/Transport/ply_Transport%20StartStop%20(recording%20safe).eel</source>
-      </version>
-      <version name="1.1" author="Paweł Łyżwa (ply)" time="2018-05-11T21:14:10Z">
-        <changelog><![CDATA[stop creating undo points]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/c8a0d5e6628f3afbbbdcddc4b788c6225744e4cf/Transport/ply_Transport%20StartStop%20(recording%20safe).eel</source>
-      </version>
-      <version name="1.2" author="Paweł Łyżwa (ply)" time="2019-12-06T01:18:56Z">
-        <changelog><![CDATA[fix not creating undo points]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/78b1486d57bd6474f30cb19c8459bb00bfaf0429/Transport/ply_Transport%20StartStop%20(recording%20safe).eel</source>
+      <version name="1.2.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <changelog><![CDATA[change license to GPL3]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Various/ply_Transport%20StartStop%20(recording%20safe).eel</source>
       </version>
     </reapack>
   </category>
-  <category name="Utility">
-    <reapack name="ply_5.1 output router.jsfx" type="effect" desc="5.1 output router">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2017-09-05T16:11:09Z">
-        <source>https://github.com/ply/ReaScripts/raw/e82024e40f05b70cc323cba7a39c2852d920671c/Utility/ply_5.1%20output%20router.jsfx</source>
-      </version>
-    </reapack>
-    <reapack name="ply_Create time selection with start and end time relative to cursor position (dialog).lua" type="script" desc="Create time selection with start and end time relative to cursor position (dialog)">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-10T12:01:36Z">
-        <changelog><![CDATA[+ Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/4e645f80bfa961ed7e116e6cf4ee2b8182c9310d/Utility/ply_Create%20time%20selection%20with%20start%20and%20end%20time%20relative%20to%20cursor%20position%20(dialog).lua</source>
-      </version>
-    </reapack>
-    <reapack name="ply_Insert marker with ID larger than 10 at playback position....lua" type="script" desc="Insert marker with ID larger than 10 at playback position...">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-18T18:29:42Z">
-        <changelog><![CDATA[Initial version]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/4700adfef07bb8aa30477e2a30699d8882f2f3d9/Utility/ply_Insert%20marker%20with%20ID%20larger%20than%2010%20at%20playback%20position....lua</source>
-      </version>
-      <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-03-19T16:50:40Z">
-        <changelog><![CDATA[- if there's marker on cursor position, get it's name as default
-- workaround for ' and " in name of last marker
-- make dialog fields bigger
-- change field separator from , to \n
-- make all variables local]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/ec401d842a8089839559020f23bf011df49c98a0/Utility/ply_Insert%20marker%20with%20ID%20larger%20than%2010%20at%20playback%20position....lua</source>
-      </version>
-      <version name="1.2" author="Paweł Łyżwa (ply)" time="2020-09-12T14:55:55Z">
-        <changelog><![CDATA[- ignore markers with ID < 11 when looking for marker name]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/d06c76272af63df200f7d1d472c67e2ab1ce0034/Utility/ply_Insert%20marker%20with%20ID%20larger%20than%2010%20at%20playback%20position....lua</source>
-      </version>
-    </reapack>
-    <reapack name="ply_output_switcher.jsfx" type="effect" desc="Output switcher">
-      <version name="0.1" author="Paweł Łyżwa" time="2017-09-05T15:16:17Z">
-        <source>https://github.com/ply/ReaScripts/raw/db7ff8b19bf84a2d9d4bd0774b1a223e6a4245f3/Utility/ply_output_switcher.jsfx</source>
-      </version>
-    </reapack>
-    <reapack name="ply_Playhead vs selected track items and markers window.lua" type="script" desc="Playhead vs selected track item &amp; markers (window)">
-      <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 Runs a window which shows:\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab which item on selected track is under playhead\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab playhead position relative to item's position and source\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab list of markers before playhead (id, name, color, and position relative to playhead)\sa180\par}
-}
-]]></description>
-      </metadata>
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2020-03-21T17:33:57Z">
-        <changelog><![CDATA[initial version]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/6b1a26ce03b5030b9797d9faadc42d190f827675/Utility/ply_Playhead%20vs%20selected%20track%20items%20and%20markers%20window.lua</source>
-      </version>
-      <version name="1.1" author="Paweł Łyżwa (ply)" time="2020-08-12T20:56:39Z">
-        <changelog><![CDATA[add support for default marker color]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/e721d831d446b487dc7b1e5205854fe1a6711d5b/Utility/ply_Playhead%20vs%20selected%20track%20items%20and%20markers%20window.lua</source>
-      </version>
-    </reapack>
-    <reapack name="ply_put T marker.lua" type="script" desc="put T marker">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2017-09-05T16:18:20Z">
-        <changelog><![CDATA[+ Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/3042c4866cee72a198038ebbc770cb5a1a6b3213/Utility/ply_put%20T%20marker.lua</source>
-      </version>
-    </reapack>
-    <reapack name="ply_Synchronize and heal selected items.lua" type="script" desc="ply: Synchronize and heal selected media items">
-      <version name="0.1" author="Paweł Łyżwa (ply)" time="2019-09-17T21:51:46Z">
-        <changelog><![CDATA[+ Initial release]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/903f429465ef4a589ba2c72927fdb02d191267c2/Utility/ply_Synchronize%20and%20heal%20selected%20items.lua</source>
-      </version>
-      <version name="0.2" author="Paweł Łyżwa (ply)" time="2020-03-17T11:02:24Z">
-        <changelog><![CDATA[heal all selected items (even if more than two)]]></changelog>
-        <source main="main">https://github.com/ply/ReaScripts/raw/9dbfb58d1bef3c20a0d9b52d55d3f29b1e56be5a/Utility/ply_Synchronize%20and%20heal%20selected%20items.lua</source>
-      </version>
-    </reapack>
-  </category>
-  <category name="Utility/BricastiM7">
+  <category name="Various/BricastiM7">
     <reapack name="ply_M7util.jsfx" type="effect" desc="Bricasti M7 v2 utility (ply)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -178,24 +222,49 @@
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab presets saved by user\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab checksum\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab no bank+version validation\sa180\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 {\cf1 [image: https://ply.github.io/ReaScripts/doc/img/M7util.png]\cf0}\par}
 }
 ]]></description>
+        <link rel="screenshot">https://ply.github.io/ReaScripts/doc/img/M7util.png</link>
       </metadata>
-      <version name="0.1alpha" author="Paweł Łyżwa (ply)" time="2018-02-12T21:02:39Z">
-        <source>https://github.com/ply/ReaScripts/raw/6fe1e2a3372a6d3601f92f1b7714877a041e86dd/Utility/BricastiM7/ply_M7util.jsfx</source>
+      <version name="0.1alpha.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
+        <source>https://github.com/ply/ReaScripts/raw/c000beaa5ebfcb710c667e79cf0ad58901bdb033/Various/BricastiM7/ply_M7util.jsfx</source>
       </version>
     </reapack>
   </category>
-  <category name="View">
-    <reapack name="ply_Horizontal zoom in (center at edit cursor).eel" type="script" desc="Horizontal zoom in (center at edit cursor)">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2019-12-29T20:13:02Z">
-        <source main="main">https://github.com/ply/ReaScripts/raw/a69912f54bc40617d6a63400dc6d5d73549b6e23/View/ply_Horizontal%20zoom%20in%20(center%20at%20edit%20cursor).eel</source>
-      </version>
-    </reapack>
-    <reapack name="ply_Horizontal zoom out (center at edit cursor).eel" type="script" desc="Horizontal zoom out (center at edit cursor)">
-      <version name="1.0" author="Paweł Łyżwa (ply)" time="2019-12-29T20:13:02Z">
-        <source main="main">https://github.com/ply/ReaScripts/raw/a69912f54bc40617d6a63400dc6d5d73549b6e23/View/ply_Horizontal%20zoom%20out%20(center%20at%20edit%20cursor).eel</source>
-      </version>
-    </reapack>
-  </category>
+  <metadata>
+    <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ply ReaScripts\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 This is a collection of scripts for {\field{\*\fldinst{HYPERLINK "http://reaper.fm/"}}{\fldrslt{\ul
+REAPER
+}}}
+ DAW by Pawe\u322? \u321?y\u380?wa ({\field{\*\fldinst{HYPERLINK "https://github.com/ply/"}}{\fldrslt{\ul
+ply
+}}}
+).\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Install\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The suggested way to install them is to use {\field{\*\fldinst{HYPERLINK "https://reapack.com/"}}{\fldrslt{\ul
+ReaPack
+}}}
+ by adding the repository: {\field{\*\fldinst{HYPERLINK "https://ply.github.io/ReaScripts/index.xml"}}{\fldrslt{\ul
+https://ply.github.io/ReaScripts/index.xml
+}}}
+. You can also browse and download them {\field{\*\fldinst{HYPERLINK "https://github.com/ply/ReaScripts"}}{\fldrslt{\ul
+directly from GitHub
+}}}
+.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Support and feedback\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 The preferred way to report bugs or request features is the GitHub's {\field{\*\fldinst{HYPERLINK "https://github.com/ply/ReaScripts/issues"}}{\fldrslt{\ul
+issue tracker
+}}}
+. Please send code contributions as {\field{\*\fldinst{HYPERLINK "https://github.com/ply/ReaScripts/pulls"}}{\fldrslt{\ul
+pull requests
+}}}
+.\par}
+}
+]]></description>
+  </metadata>
 </index>
