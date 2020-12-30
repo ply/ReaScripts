@@ -1,6 +1,6 @@
 --[[
 @description Source-Destination edit
-@version 1.3.0dev
+@version 1.3.0
 @author Paweł Łyżwa (ply)
 @about
   # Source-Destination edit
@@ -28,6 +28,7 @@
   Check `Source-Destination configuration` script for customization options.
 @changelog
   - add configuration possibility
+  - abort when no selection in source
 @provides
   [main] ply_Source-Destination edit.lua
   [main] ply_Source-Destination setup.lua
