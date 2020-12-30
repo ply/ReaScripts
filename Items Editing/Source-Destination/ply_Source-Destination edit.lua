@@ -107,9 +107,8 @@ reaper.Undo_BeginBlock2(dst_proj)
 reaper.InsertTrackAtIndex(0, false)
 track0 = reaper.GetTrack(dst_proj, 0)
 start, end_ = reaper.GetSet_LoopTimeRange2(dst_proj, false, false, 0, 0, false)
-if not config.insert and start == end_ then
-  -- override in destination when on 3-point edit if requested
-  end_ = start + src_length
+if not config.insert and start == end_ then -- override in destination when on 3-point edit if requested
+  start, end_ =reaper.GetSet_LoopTimeRange2(dst_proj, true, false, cursor_position, cursor_position + src_length, false)
 end
 if start == end_ then
   reaper.Main_OnCommand(40182, 0) -- Select all items
