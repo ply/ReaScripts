@@ -25,10 +25,11 @@
   project to be in the currently opened project tab. In case the leftmost tab
   is opened, it works with the rightmost tab as the destination.
 
-  Check `Source-Destination configuration` script for customization options.
+  Use `Source-Destination configuration` script for customization.
 @changelog
   - add configuration possibility
   - abort when no selection in source
+  - improve scripts' documentation
 @provides
   [main] ply_Source-Destination edit.lua
   [main] ply_Source-Destination setup.lua

@@ -1,6 +1,7 @@
 --[[
 @noindex
-This file is a part of "Source-Destination edit" package
+This file is a part of "Source-Destination edit" package.
+Check "ply_Source-Destination edit.lua" for more information.
 
 Copyright (C) 2020 Paweł Łyżwa
 
