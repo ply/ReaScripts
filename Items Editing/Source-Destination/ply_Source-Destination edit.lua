@@ -37,7 +37,7 @@
   [nomain] config.lua
   [nomain] gfxu.lua
 
-Copyright (C) 2020 Paweł Łyżwa
+Copyright (C) 2020--2021 Paweł Łyżwa
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -57,6 +57,9 @@ local TITLE = "Source-Destination edit"
 package.path = ({reaper.get_action_context()})[2]:match('^.+[\\//]')..'?.lua'
 local config = require("config")
 
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 local function insert_empty_item(track, start, end_)
   local item = reaper.AddMediaItemToTrack(track)
   reaper.SetMediaItemPosition(item, start, false)
@@ -64,56 +67,67 @@ local function insert_empty_item(track, start, end_)
   return item
 end
 
-local src_proj = reaper.EnumProjects(0)
-local dst_proj = reaper.EnumProjects(-1)
-local start, end_, track0
-if dst_proj == src_proj then
-  local i = 1
-  while reaper.EnumProjects(i) do i = i + 1 end
-  dst_proj = reaper.EnumProjects(i-1)
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local function get_time_selection_length (proj)
+  local start, end_ = reaper.GetSet_LoopTimeRange2(proj, false, false, 0, 0, false)
+  return end_ - start
 end
 
-reaper.PreventUIRefresh(1);
-reaper.SelectProjectInstance(src_proj)
-start, end_ = reaper.GetSet_LoopTimeRange2(src_proj, false, false, 0, 0, false)
-local src_length = end_ - start
 
-if src_length == 0 then
-  reaper.ShowMessageBox("Error: no time selection in source project. Aborting", TITLE, 0)
-else
-  -- IN SOURCE PROJECT -----------------------------------------------------------
-  reaper.SelectProjectInstance(src_proj)
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local function get_selected_tracks (proj)
+  local selected_tracks = {}
+  for i = 1, reaper.CountSelectedTracks2(proj, true) do
+      selected_tracks[i] = reaper.GetSelectedTrack2(proj, i-1, true)
+  end
+  return selected_tracks
+end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local function set_selected_tracks (selected_tracks)
+  for _, track in ipairs(selected_tracks) do reaper.SetTrackSelected(track, true) end
+end
+
+
+---------------------------------------------------------------------------------------
+-- Copy items form current time selection to clipboard (with dummy item on added track)
+-- Note: changes time selection
+---------------------------------------------------------------------------------------
+local function copy_items_from_current_time_selection (src_proj)
+  local start, end_ = reaper.GetSet_LoopTimeRange2(src_proj, false, false, 0, 0, false)
   -- copy items from source project
-  reaper.Undo_BeginBlock2(src_proj)
   reaper.InsertTrackAtIndex(0, false)
-  track0 = reaper.GetTrack(src_proj, 0)
+  local track0 = reaper.GetTrack(src_proj, 0)
   insert_empty_item(track0, start, end_)
   reaper.Main_OnCommand(40717, 0) -- Select all items in current time selection
   reaper.SetCursorContext(1, 0) -- focus the arrange window
   reaper.Main_OnCommand(41383, 0) -- Copy items/tracks/envelope points (depending on focus) within time selection, if any (smart copy)
   reaper.DeleteTrack(track0)
-  reaper.Undo_EndBlock2(src_proj, "Source-Destination edit (source)", -1)
-  reaper.Undo_DoUndo2(src_proj)
+end
 
-  -- store track selection of destination project
-  local selected_tracks = {}
-  for i = 1, reaper.CountSelectedTracks2(dst_proj, true) do
-    selected_tracks[i] = reaper.GetSelectedTrack2(dst_proj, i-1, true)
-  end
 
-  -- IN DESTINATION PROJECT ------------------------------------------------------
-  reaper.SelectProjectInstance(dst_proj)
-
-  -- store cursor position
-  local cursor_pos = reaper.GetCursorPositionEx(dst_proj)
-
-  -- paste items to destination project
-  reaper.SelectProjectInstance(dst_proj)
-  reaper.Undo_BeginBlock2(dst_proj)
+--------------------------------------------------------------------------------------
+-- Paste items from clipboard (3- or 4-point, depending on time selection in project).
+-- Expects dummy tiem on added track in the clipboard
+-- Note: changes cursor position and time selection
+--
+-- @param dst_proj    Destination project
+-- @param src_length  Length of pasted items (needed for 3-point edit)
+--
+-- @return start      Paste start time
+-- @return end_       Paste end time
+--------------------------------------------------------------------------------------
+local function paste_items (dst_proj, src_length)
+  -- return
   reaper.InsertTrackAtIndex(0, false)
-  track0 = reaper.GetTrack(dst_proj, 0)
-  start, end_ = reaper.GetSet_LoopTimeRange2(dst_proj, false, false, 0, 0, false)
+  local track0 = reaper.GetTrack(dst_proj, 0)
+  local start, end_ = reaper.GetSet_LoopTimeRange2(dst_proj, false, false, 0, 0, false)
   if not config.insert and start == end_ then -- override in destination when on 3-point edit if requested
+    local cursor_pos = reaper.GetCursorPositionEx(dst_proj)
     start, end_ = reaper.GetSet_LoopTimeRange2(dst_proj, true, false, cursor_pos, cursor_pos + src_length, false)
   end
   if start == end_ then
@@ -129,41 +143,89 @@ else
   end
   reaper.SetOnlyTrackSelected(track0)
   reaper.Main_OnCommand(40058, 0) -- Paste items/tracks
-
-  -- crossfades
   local item = reaper.GetSelectedMediaItem(dst_proj, 0)
   start = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
   end_ = start + reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
-  reaper.GetSet_LoopTimeRange2(dst_proj, true, false, end_ - config._xfade_len/2, end_ + config._xfade_len/2, false)
-  reaper.Main_OnCommand(40717, 0) -- Select all items in current time selection
-  reaper.Main_OnCommand(40916, 0) -- Crossfade items within time selection
-  reaper.GetSet_LoopTimeRange2(dst_proj, true, false, start - config._xfade_len/2, start + config._xfade_len/2, false)
-  reaper.Main_OnCommand(40717, 0) -- Select all items in current time selection
-  reaper.Main_OnCommand(40916, 0) -- Crossfade items within time selection
-
-  -- manage time selection in destination project
-  if config.select_edit_in_dst then
-    -- select edit on the timeline
-    reaper.GetSet_LoopTimeRange2(dst_proj, true, false, start, end_, false)
-  else
-    -- clear time selection
-    reaper.GetSet_LoopTimeRange2(dst_proj, true, false, 0, 0, false)
-  end
-
-  -- recall cursor position if not requesting cursor at the end of the edit
-  if not config.dst_cur_to_edit_end then
-    reaper.SetEditCurPos2(dst_proj, cursor_pos, true, true)
-  end
-
-  -- cleanup
   reaper.DeleteTrack(track0)
-  -- recall track selection
-  for _, track in ipairs(selected_tracks) do reaper.SetTrackSelected(track, true) end
-
-  reaper.Undo_EndBlock2(dst_proj, "Source-Destination edit", -1)
-  reaper.MarkProjectDirty(dst_proj)
+  return start, end_
 end
 
-reaper.PreventUIRefresh(-1);
-reaper.UpdateArrange()
-reaper.UpdateTimeline()
+
+--------------------------------------------------------------------------------
+-- Make cross-fade.
+-- Note: sets time selection to cross-fade
+-- Note: selects edited items
+--------------------------------------------------------------------------------
+local function make_crossfade (dst_proj, centre, length)
+  reaper.GetSet_LoopTimeRange2(dst_proj, true, false, centre - length/2, centre + length/2, false)
+  reaper.Main_OnCommand(40717, 0) -- Select all items in current time selection
+  reaper.Main_OnCommand(40916, 0) -- Crossfade items within time selection
+end
+
+
+--------------------------------------------------------------------------------
+-- Entry point
+--------------------------------------------------------------------------------
+local function main()
+  local src_proj = reaper.EnumProjects(0)
+  local dst_proj = reaper.EnumProjects(-1)
+  if dst_proj == src_proj then
+    local i = 1
+    while reaper.EnumProjects(i) do i = i + 1 end
+    dst_proj = reaper.EnumProjects(i-1)
+  end
+
+  reaper.PreventUIRefresh(1);
+  reaper.SelectProjectInstance(src_proj)
+  local src_length = get_time_selection_length(src_proj)
+
+  if src_length == 0 then
+    reaper.ShowMessageBox("Error: no time selection in source project. Aborting", TITLE, 0)
+    return
+  else
+    -- IN SOURCE PROJECT ---------------------------------------------------------
+    reaper.SelectProjectInstance(src_proj)
+    copy_items_from_current_time_selection (src_proj)
+    reaper.Undo_EndBlock2(src_proj, "Source-Destination edit (source)", -1)
+    reaper.Undo_DoUndo2(src_proj)
+
+    -- IN DESTINATION PROJECT ----------------------------------------------------
+    reaper.SelectProjectInstance(dst_proj)
+
+    -- store track selection and cursor position
+    local selected_tracks = get_selected_tracks(dst_proj)
+    local cursor_pos = reaper.GetCursorPositionEx(dst_proj)
+    -- paste items to destination project
+    reaper.SelectProjectInstance(dst_proj)
+    reaper.Undo_BeginBlock2(dst_proj)
+    local start, end_ = paste_items(dst_proj, src_length)
+    -- crossfades
+    make_crossfade(dst_proj, end_, config._xfade_len)
+    make_crossfade(dst_proj, start, config._xfade_len) -- selects edited items
+
+    -- manage time selection in destination project
+    if config.select_edit_in_dst then
+      -- select edit on the timeline
+      reaper.GetSet_LoopTimeRange2(dst_proj, true, false, start, end_, false)
+    else
+      -- clear time selection
+      reaper.GetSet_LoopTimeRange2(dst_proj, true, false, 0, 0, false)
+    end
+
+    -- recall cursor position if not requesting cursor at the end of the edit
+    if not config.dst_cur_to_edit_end then
+      reaper.SetEditCurPos2(dst_proj, cursor_pos, true, true)
+    end
+    -- recall track selection
+    set_selected_tracks(selected_tracks)
+
+    reaper.Undo_EndBlock2(dst_proj, "Source-Destination edit", -1)
+    reaper.MarkProjectDirty(dst_proj)
+  end
+
+  reaper.PreventUIRefresh(-1);
+  reaper.UpdateArrange()
+  reaper.UpdateTimeline()
+end
+
+main()
