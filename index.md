@@ -8,7 +8,7 @@ You can also browse and download them [directly from GitHub](https://github.com/
 
 ## Usage
 
-After installation, scripts can be run from 'Actions' window (default keyboard shortcut: `?`). All of them have names starting with `ply_`.  For each action (script) it's possible there to set your own keyboard shortcuts or add to toolbars or menus.
+After installation, scripts can be run from 'Actions' window (default keyboard shortcut: `?`). All of them have names starting with `ply_`. For each action (script) it's possible there to set your own keyboard shortcuts or add to toolbars or menus. Script-specific information can be found in ReaPack's `About this package` (double-click should do the job) or script source (`Edit action` in action window).
 
 ## Support and feedback
 
