@@ -95,7 +95,9 @@ local function run()
   gfxu.go(pad, pad)
 
   local mouse_over_line = nil
-  if gfx.mouse_y > pad and gfx.mouse_y < (gfx.h - pad) then
+  if gfx.mouse_x > 0 and gfx.mouse_x < gfx.w
+     and gfx.mouse_y > pad and gfx.mouse_y < (gfx.h - pad)
+  then
     mouse_over_line = math.ceil((gfx.mouse_y - pad) / gfx.texth)
   end
 
