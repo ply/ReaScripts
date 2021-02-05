@@ -278,10 +278,12 @@ https://ply.github.io/ReaScripts/index.xml
  ({\field{\*\fldinst{HYPERLINK "https://reapack.com/user-guide"}}{\fldrslt{\ul
 instructions
 }}}
-. You can also browse and download them {\field{\*\fldinst{HYPERLINK "https://github.com/ply/ReaScripts"}}{\fldrslt{\ul
+). You can also browse and download them {\field{\*\fldinst{HYPERLINK "https://github.com/ply/ReaScripts"}}{\fldrslt{\ul
 directly from GitHub
 }}}
 .\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Usage\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 After installation, scripts can be run from 'Actions' window (default keyboard shortcut: {\f1 ?}). All of them have names starting with {\f1 ply_}. For each action (script) it's possible there to set your own keyboard shortcuts or add to toolbars or menus.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Support and feedback\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The preferred way to report bugs or request features is the GitHub's {\field{\*\fldinst{HYPERLINK "https://github.com/ply/ReaScripts/issues"}}{\fldrslt{\ul
 issue tracker
@@ -290,7 +292,7 @@ issue tracker
 pull requests
 }}}
 .\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Contents\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Content\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Items Editing:\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Source-Destination edit (package)\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Synchronize and heal selected items\sa180\par}
@@ -305,7 +307,7 @@ pull requests
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Play by loop pre-roll value from loop start/end (or current cursor position if no selection)\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Play/stop (recording safe)\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab Playhead vs selected track items and markers window\par}
-{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\f1 BricastiM7} directory containts my attempt to control Bricasti M7 via MIDI. Unfinished, but it might be useful for recalling parameters\sa180\par}
+{\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab {\f1 BricastiM7} directory contains my attempt to control Bricasti M7 via MIDI. Unfinished, but it might be useful for recalling parameters\sa180\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 JSFX:\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab 5.1 output router\par}
 {\pard \ql \f0 \sa0 \li360 \fi-360 \bullet \tx360\tab output switcher (1 of 8 channels)\sa180\par}
