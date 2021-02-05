@@ -8,6 +8,10 @@ The suggested way to install them is to use [ReaPack](https://reapack.com/)
 by adding the repository: <https://ply.github.io/ReaScripts/index.xml> ([instructions](https://reapack.com/user-guide)).
 You can also browse and download them [directly from GitHub](https://github.com/ply/ReaScripts).
 
+## Usage
+
+After installation, scripts can be run from 'Actions' window (default keyboard shortcut: `?`). All of them have names starting with `ply_`.  For each action (script) it's possible there to set your own keyboard shortcuts or add to toolbars or menus.
+
 ## Support and feedback
 
 The preferred way to report bugs or request features is the GitHub's [issue tracker](https://github.com/ply/ReaScripts/issues). 
@@ -33,7 +37,7 @@ Various:
  - Play by loop pre-roll value from loop start/end (or current cursor position if no selection)
  - Play/stop (recording safe)
  - Playhead vs selected track items and markers window
- - `BricastiM7` directory containts my attempt to control Bricasti M7 via MIDI. Unfinished, but it might be useful for recalling parameters
+ - `BricastiM7` directory contains my attempt to control Bricasti M7 via MIDI. Unfinished, but it might be useful for recalling parameters
 
 JSFX:
   - 5.1 output router
