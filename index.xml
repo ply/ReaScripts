@@ -283,7 +283,7 @@ directly from GitHub
 }}}
 .\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Usage\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 After installation, scripts can be run from 'Actions' window (default keyboard shortcut: {\f1 ?}). All of them have names starting with {\f1 ply_}. For each action (script) it's possible there to set your own keyboard shortcuts or add to toolbars or menus.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 After installation, scripts can be run from 'Actions' window (default keyboard shortcut: {\f1 ?}). All of them have names starting with {\f1 ply_}. For each action (script) it's possible there to set your own keyboard shortcuts or add to toolbars or menus. Script-specific information can be found in ReaPack's {\f1 About this package} (double-click should do the job) or script source ({\f1 Edit action} in action window).\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 \b \fs32 Support and feedback\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 The preferred way to report bugs or request features is the GitHub's {\field{\*\fldinst{HYPERLINK "https://github.com/ply/ReaScripts/issues"}}{\fldrslt{\ul
 issue tracker
