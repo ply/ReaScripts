@@ -60,6 +60,12 @@ config.params = {
     description = "Move cursor to end of edit in destination project (true/false)",
     default = true,
     boolean = true
+  },
+  {
+    name = "copy_markers",
+    description = "Copy markers",
+    default = false,
+    boolean = true
   }
 }
 

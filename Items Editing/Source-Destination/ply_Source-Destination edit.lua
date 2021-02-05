@@ -1,6 +1,6 @@
 --[[
 @description Source-Destination edit
-@version 1.3.0
+@version 1.4.0
 @author Paweł Łyżwa (ply)
 @about
   # Source-Destination edit
@@ -27,9 +27,9 @@
 
   Use `Source-Destination configuration` script for customization.
 @changelog
-  - add configuration possibility
-  - abort when no selection in source
-  - improve scripts' documentation
+  - add marker copying option
+  - edit: refactor edit
+  - configure: check window bounds in mouse-over highlighting
 @provides
   [main] ply_Source-Destination edit.lua
   [main] ply_Source-Destination setup.lua
@@ -92,6 +92,32 @@ local function set_selected_tracks (selected_tracks)
   for _, track in ipairs(selected_tracks) do reaper.SetTrackSelected(track, true) end
 end
 
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local function get_markers_relative_to_time_selection (proj)
+  local markers = {}
+  local start, end_ = reaper.GetSet_LoopTimeRange2(proj, false, false, 0, 0, false)
+  for idx = 0, reaper.CountProjectMarkers(proj)-1 do
+    local _, isrgn, pos, _, name, _, color = reaper.EnumProjectMarkers3(proj, idx)
+    if not isrgn and pos >= start and pos < end_ then
+      markers[#markers+1] = {
+        pos = pos - start,
+        name = name,
+        color = color
+      }
+    end
+  end
+  return markers
+end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local function add_markers_relative_to_position (proj, markers, position)
+  for _, marker in ipairs(markers) do
+    reaper.AddProjectMarker2(proj, false, position + marker.pos, 0, marker.name, -1, marker.color)
+  end
+end
 
 ---------------------------------------------------------------------------------------
 -- Copy items form current time selection to clipboard (with dummy item on added track)
@@ -185,6 +211,10 @@ local function main()
   else
     -- IN SOURCE PROJECT ---------------------------------------------------------
     reaper.SelectProjectInstance(src_proj)
+    local markers = nil
+    if config.copy_markers then
+      markers = get_markers_relative_to_time_selection(src_proj)
+    end
     copy_items_from_current_time_selection (src_proj)
     reaper.Undo_EndBlock2(src_proj, "Source-Destination edit (source)", -1)
     reaper.Undo_DoUndo2(src_proj)
@@ -202,6 +232,10 @@ local function main()
     -- crossfades
     make_crossfade(dst_proj, end_, config._xfade_len)
     make_crossfade(dst_proj, start, config._xfade_len) -- selects edited items
+    -- markers
+    if markers then
+      add_markers_relative_to_position (dst_proj, markers, start)
+    end
 
     -- manage time selection in destination project
     if config.select_edit_in_dst then
