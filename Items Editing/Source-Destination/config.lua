@@ -3,7 +3,7 @@
 This file is a part of "Source-Destination edit" package.
 Check "ply_Source-Destination edit.lua" for more information.
 
-Copyright (C) 2020 Paweł Łyżwa
+Copyright (C) 2020--2021 Paweł Łyżwa
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
