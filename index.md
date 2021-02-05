@@ -11,7 +11,7 @@ You can also browse and download them [directly from GitHub](https://github.com/
 The preferred way to report bugs or request features is the GitHub's [issue tracker](https://github.com/ply/ReaScripts/issues).
 Please send code contributions as [pull requests](https://github.com/ply/ReaScripts/pulls).
 
-## Contents
+## Content
 
 Items Editing:
  - Source-Destination edit (package)
