@@ -1,21 +1,20 @@
 --[[
 @description Playhead vs selected track item & markers (window)
-@version 1.1.1
+@version 1.2.0
 @author Paweł Łyżwa (ply)
 @about # Playhead vs selected track item & markers (window)
   Runs a window which shows:
    - which item on selected track is under playhead
    - playhead position relative to item's position and source
    - list of markers before playhead (id, name, color, and position relative to playhead)
+   - next recording pass number (guessed)
 
   Use a mouse wheel to change font size.
 @screenshot https://ply.github.io/ReaScripts/doc/img/Playhead_vs_selected_track_items_and_markers_window.png
 @changelog
-	- change license to GPL3
-	- add screenshot
-	- add usage information about mouse wheel
+	- show next recording pass number (guessed)
 
-Copyright (C) 2020 Paweł Łyżwa
+Copyright (C) 2020--2025 Paweł Łyżwa
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -104,6 +103,20 @@ local function get_markers_before_pos(pos)
 		end
 	end
 	return markers
+end
+
+local function guess_next_recpass()
+	local recpass = 0
+	for itemidx = 0, reaper.CountMediaItems(0) - 1 do
+		local item = reaper.GetMediaItem(0, itemidx)
+		for takeidx = 0, reaper.GetMediaItemNumTakes(item) - 1 do
+			local take = reaper.GetTake(item, takeidx)
+			if take then
+				recpass = math.max(recpass, reaper.GetMediaItemTakeInfo_Value(take, "I_RECPASSID"))
+			end
+		end
+	end
+	return math.tointeger(recpass + 1)
 end
 
 -- GUI logic -------------------------------------------------------------------
@@ -229,6 +242,12 @@ local function run()
 
 	gfx_newline()
 	gfx.y = gfx.y + gfx.texth/2
+	gfx_set_color(0.7)
+	gfx.drawstr("Guessed next recording pass number: ")
+	gfx_set_color(0.2, 0.8, 1)
+	gfx.drawstr(guess_next_recpass())
+
+	gfx_newline()
 	gfx_set_color(0.9)
 	gfx.drawstr("Last markers (reverse order):")
 	gfx_newline()
