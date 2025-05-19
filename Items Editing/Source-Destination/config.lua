@@ -35,6 +35,11 @@ config.enums = {
     override = 0,
     insert = 1,
   },
+  move_cursor = {
+    no = 0,
+    start = 1,
+    end_ = 2,
+  }
 }
 
 
@@ -69,10 +74,10 @@ config.params = {
     default = true,
   },
   {
-    name = "dst_cur_to_edit_end",
-    description = "Move cursor to end of edit in destination project",
-    enum = config.enums.boolean,
-    default = true,
+    name = "move_cursor",
+    description = "Move cursor to edit",
+    enum = config.enums.move_cursor,
+    default = config.enums.move_cursor.end_,
   },
   {
     name = "copy_markers",
@@ -204,6 +209,14 @@ function config.load()
         param:set(param.enum.insert)
       elseif value == "false" then
         param:set(param.enum.override)
+      end
+    elseif param.name == "move_cursor" and reaper.HasExtState(config.SECTION, "dst_cur_to_edit_end") then
+      local value = reaper.GetExtState(config.SECTION, "dst_cur_to_edit_end")
+      reaper.DeleteExtState(config.SECTION, "dst_cur_to_edit_end", true)
+      if value == "false" then
+        param:set(param.enum.no)
+      elseif value == "true" then
+        param:set(param.enum.end_)
       end
     else -- load current configuration
       param:load()

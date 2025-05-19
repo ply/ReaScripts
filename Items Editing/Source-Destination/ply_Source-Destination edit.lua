@@ -27,6 +27,8 @@
 
   Use `Source-Destination configuration` script for customization.
 @changelog
+  - add an option to move the cursor to the start of the edit
+  - fix the cursor not being placed at the end of the edit when the user requests it
   - change how configuration toggles are handled internally
   - minor wording changes and fixes
 @provides
@@ -246,10 +248,16 @@ local function main()
       reaper.GetSet_LoopTimeRange2(dst_proj, true, false, 0, 0, false)
     end
 
-    -- recall cursor position if not requesting cursor at the end of the edit
-    if not config.dst_cur_to_edit_end then
+    -- move the cursor
+    if config.move_cursor == config.enums.move_cursor.no then
+      -- recall the postion
       reaper.SetEditCurPos2(dst_proj, cursor_pos, true, true)
+    elseif config.move_cursor == config.enums.move_cursor.start then
+      reaper.SetEditCurPos2(dst_proj, start, true, true)
+    elseif config.move_cursor == config.enums.move_cursor.end_ then
+      reaper.SetEditCurPos2(dst_proj, end_, true, true)
     end
+
     -- recall track selection
     set_selected_tracks(selected_tracks)
 
