@@ -70,7 +70,7 @@ config.params = {
 }
 
 local function error(msg)
-  reaper.ShowConsoleMsg("Source-destination configuration: "..msg)
+  reaper.ShowConsoleMsg("Source-destination configuration: "..msg.."\n")
 end
 
 local function toboolean(s)
