@@ -3,7 +3,7 @@
 This file is a part of "Source-Destination edit" package.
 Check "ply_Source-Destination edit.lua" for more information.
 
-Copyright (C) 2020--2021 Paweł Łyżwa
+Copyright (C) 2020--2025 Paweł Łyżwa
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,13 +23,27 @@ local config = {}
 config.params = {}
 config.SECTION = "ply_sd_edit"
 
+-- enums
+config.enums = {
+  boolean = {
+    -- special enum, as boolean values require additional handling
+    -- when loading and saving the configuration
+    no = false, -- stored as 0
+    yes = true, -- stored as 1
+  },
+  behaviour = {
+    override = 0,
+    insert = 1,
+  },
+}
+
+
 -- parameters and defaults
 config.params = {
   {
     name = "xfade_len_ms",
     description = "Cross-fade length in miliseconds. When negative uses media item defaults",
     default = -1,
-    boolean = false,
     number = true,
     on_change = function ()
       -- create helper parameter for cross-fade length
@@ -43,147 +57,157 @@ config.params = {
     end
   },
   {
-    name = "insert",
+    name = "behaviour",
     description = "3-point editing behaviour",
-    default = true,
-    boolean = true,
-    display_map = { [true] = "insert", [false] = "overrride" }
+    enum = config.enums.behaviour,
+    default = config.enums.behaviour.insert,
   },
   {
     name = "select_edit_in_dst",
-    description = "Select edit on timeline in destination project (true/false)",
+    description = "Select edit on timeline in destination project",
+    enum = config.enums.boolean,
     default = true,
-    boolean = true
   },
   {
     name = "dst_cur_to_edit_end",
-    description = "Move cursor to end of edit in destination project (true/false)",
+    description = "Move cursor to end of edit in destination project",
+    enum = config.enums.boolean,
     default = true,
-    boolean = true
   },
   {
     name = "copy_markers",
     description = "Copy markers",
+    enum = config.enums.boolean,
     default = false,
-    boolean = true
   }
 }
 
+-- helper functions
 local function error(msg)
   reaper.ShowConsoleMsg("Source-destination configuration: "..msg.."\n")
 end
 
-local function toboolean(s)
-  if s == "true" then
-    return true
-  elseif s == "false" then
-    return false
-  elseif s == nil then
-    return nil
-  else
-    return s or false
+-- populate helper tables
+for name, enum in pairs(config.enums) do
+  enum._nameof = {} -- reverse mappings for enums
+  enum._values = {} -- enum values to iterate through when switching (ordered)
+  enum._idxof = {}  -- reverse mapping for _values
+
+  for k, v in pairs(enum) do
+    if k:sub(1, 1) ~= "_" then -- ignore keys starting with "_"
+      enum._nameof[v] = k
+      table.insert(enum._values, v)
+    end
+  end
+  if name ~= "boolean" then -- boolean values can't be compared
+    table.sort(enum._values)
+  end
+  for i, v in ipairs(enum._values) do
+    enum._idxof[v] = i
   end
 end
 
-local function objectize(param)
-  -- make proper objects from `param` table (in place)
-
+-- make proper objects from `param` table (in place)
+for _, param in ipairs(config.params) do
   param.str2value = function(self, str) -- convert string to parameter type, returns nil if fails
-    if self.boolean then
-      return toboolean(str)
-    elseif self.number then
+    if self.number then
       return tonumber(str)
+    elseif self.enum then
+      if self.enum == config.enums.boolean then
+        local map = {
+          ["0"] = false, ["1"] = true,
+          ["false"] = false, ["true"] = true,  -- for backwards compatibility
+        }
+        local boolval = map[str]
+        if boolval == nil then
+          error("invalid value for "..self.name..": "..str)
+        end
+        return boolval
+      else
+        return tonumber(str)
+      end
     else
       return str
     end
   end
 
-  param._update = function(self)
-    if self.value == nil then
-      config[self.name] = self.default
+  param.load = function(self) -- load from REAPER settings (ExtState)
+    if reaper.HasExtState(config.SECTION, self.name) then
+      self:set(self:str2value(reaper.GetExtState(config.SECTION, self.name)), false)
     else
-      if self.boolean then
-        local boolval = toboolean(self.value)
-        if boolval == nil then
-          error("boolean `"..self.name.."` is either `true` or `false`")
-          boolval = self.default
-        end
-        config[self.name] = boolval
-      elseif self.number then
-        config[self.name] = tonumber(self.value)
-      else
-        config[self.name] = self.value
-      end
+      self:reset(false)
     end
-    if self.on_change then param.on_change() end
   end
 
   param.save = function(self) -- save to REAPER settings (ExtState)
     if self.value == nil then
       reaper.DeleteExtState(config.SECTION, self.name, true)
+    elseif self.enum == config.enums.boolean then
+      reaper.SetExtState(config.SECTION, self.name, tostring(self.value and 1 or 0), true)
     else
-      reaper.SetExtState(config.SECTION, self.name, self.value, true)
+      reaper.SetExtState(config.SECTION, self.name, tostring(self.value), true)
     end
   end
 
-  param.load = function(self) -- load from REAPER settings (ExtState)
-    if reaper.HasExtState(config.SECTION, self.name) then
-      self:set(reaper.GetExtState(config.SECTION, self.name), false)
-    else
-      self:reset(false)
-    end
-    self:_update()
-  end
-
-  param.reset = function(self, save) -- reset parameter and ExtState
-    save = save == nil and true or save
-    reaper.DeleteExtState(config.SECTION, self.name, true)
-    self.value = nil
-    config[self.name] = self.default
-    self:_update()
-    if save then self:save() end
-  end
-
-  param.set = function(self, value, save) -- set parameter and ExtState
-    save = save == nil and true or save
+  param.set = function(self, value, save)
+    self.value = value
     if value == nil then
-      config.reset(self, save)
+      config[self.name] = self.default
     else
-      self.value = tostring(value)
-      self:_update()
-      if save then self:save() end
+      config[self.name] = value
     end
+
+    if self.enum then
+      local name = self.enum._nameof[config[self.name]]
+      -- remove trailing underscores
+      while #name > 0 and name:sub(#name) == "_" do
+        name = name:sub(1, #name-1)
+      end
+      self.value_str = name
+    else
+      self.value_str = tostring(config[self.name])
+    end
+
+    if save or save == nil then self:save() end
+    if self.on_change then param.on_change() end
   end
 
-  param.display = function(self)
-    local value = self.value ~= nil and self.value or self.default
-    if self.display_map then
-      return self.display_map[self:str2value(value)]
-    else
-      return tostring(value)
-    end
+  param.reset = function(self, save)
+    self:set(nil, save)
   end
 
-  if param.boolean == true then -- additionals for booleans
-    param.toggle = function(self)
+  if param.enum then
+    param.switch = function(self)
       if self.value == nil then
         self:set(self.default)
       else
-        self:set(not toboolean(self.value))
+        local idx = self.enum._idxof[self.value] + 1
+        if idx > #self.enum._values then
+          idx = 1
+        end
+        self:set(self.enum._values[idx])
       end
-      self:_update()
     end
   end
 end
 
-for _, param in ipairs(config.params) do
-  objectize(param)
-end
+--------------------------------------------------------------------------------
 
 function config.load()
   -- load configuration and fill missing values with defaults
   for _, param in ipairs(config.params) do
-    param:load()
+    -- handle configuration stored in an old way for backward compatibility
+    if param.name == "behaviour" and reaper.HasExtState(config.SECTION, "insert") then
+      local value = reaper.GetExtState(config.SECTION, "insert")
+      reaper.DeleteExtState(config.SECTION, "insert", true)
+      if value == "true" then
+        param:set(param.enum.insert)
+      elseif value == "false" then
+        param:set(param.enum.override)
+      end
+    else -- load current configuration
+      param:load()
+    end
   end
 end
 
@@ -193,8 +217,6 @@ function config.save()
     param:save()
   end
 end
-
---------------------------------------------------------------------------------
 
 config.load()
 return config

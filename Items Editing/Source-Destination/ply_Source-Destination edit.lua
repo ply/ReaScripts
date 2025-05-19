@@ -1,6 +1,6 @@
 --[[
 @description Source-Destination edit
-@version 1.4.0
+@version 1.5.0
 @author Paweł Łyżwa (ply)
 @about
   # Source-Destination edit
@@ -27,9 +27,8 @@
 
   Use `Source-Destination configuration` script for customization.
 @changelog
-  - add marker copying option
-  - edit: refactor edit
-  - configure: check window bounds in mouse-over highlighting
+  - change how configuration toggles are handled internally
+  - minor wording changes and fixes
 @provides
   [main] ply_Source-Destination edit.lua
   [main] ply_Source-Destination setup.lua
@@ -37,7 +36,7 @@
   [nomain] config.lua
   [nomain] gfxu.lua
 
-Copyright (C) 2020--2021 Paweł Łyżwa
+Copyright (C) 2020--2025 Paweł Łyżwa
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -138,7 +137,7 @@ end
 
 --------------------------------------------------------------------------------------
 -- Paste items from clipboard (3- or 4-point, depending on time selection in project).
--- Expects dummy tiem on added track in the clipboard
+-- Expects a dummy item on an added track in the clipboard
 -- Note: changes cursor position and time selection
 --
 -- @param dst_proj    Destination project
@@ -152,7 +151,8 @@ local function paste_items (dst_proj, src_length)
   reaper.InsertTrackAtIndex(0, false)
   local track0 = reaper.GetTrack(dst_proj, 0)
   local start, end_ = reaper.GetSet_LoopTimeRange2(dst_proj, false, false, 0, 0, false)
-  if not config.insert and start == end_ then -- override in destination when on 3-point edit if requested
+  if config.behaviour == config.enums.behaviour.override and start == end_ then
+    -- override in destination when on 3-point edit
     local cursor_pos = reaper.GetCursorPositionEx(dst_proj)
     start, end_ = reaper.GetSet_LoopTimeRange2(dst_proj, true, false, cursor_pos, cursor_pos + src_length, false)
   end

@@ -5,7 +5,7 @@ Source-Destination editing configuration manager
 This file is a part of "Source-Destination edit" package.
 Check "ply_Source-Destination edit.lua" for more information.
 
-Copyright (C) 2020--2021 Paweł Łyżwa
+Copyright (C) 2020--2025 Paweł Łyżwa
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -107,11 +107,11 @@ local function run()
     if mouse_over_line == i then
       gfxu.fill(colors.hover_bg, gfx.x, gfx.y, gfx.w-2*pad, gfx.texth)
       if mouse_evt == 1 then -- left click
-        if param.boolean then
-          param:toggle()
+        if param.enum then
+          param:switch()
         else
           local function get_value_from_user()
-            local ok, new_value = reaper.GetUserInputs(TITLE, 1, param.name, param.value or param.default)
+            local ok, new_value = reaper.GetUserInputs(TITLE, 1, param.name, tostring(param.value or param.default))
             new_value = param:str2value(new_value)
             if ok then
               if new_value == nil then
@@ -130,14 +130,14 @@ local function run()
     end
     gfxu.draw_str(param.description, colors.text)
 
-    if param.value then
+    if param.value ~= nil then
       gfx.setfont(fonts.value)
     else
       gfx.setfont(fonts.defvalue)
     end
 
     gfxu.go(gfx.w-pad)
-    gfxu.rdraw_str(param:display())
+    gfxu.rdraw_str(param.value_str)
     gfxu.newline(pad)
   end
 
