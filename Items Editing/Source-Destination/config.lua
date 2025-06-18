@@ -35,6 +35,10 @@ config.enums = {
     override = 0,
     insert = 1,
   },
+  item_selection = {
+    new_items = 1,
+    crossfade = 2,
+  },
   move_cursor = {
     no = 0,
     start = 1,
@@ -66,6 +70,12 @@ config.params = {
     description = "3-point editing behaviour",
     enum = config.enums.behaviour,
     default = config.enums.behaviour.insert,
+  },
+  {
+    name = "item_selection",
+    description = "Item selection in destination project",
+    enum = config.enums.item_selection,
+    default = config.enums.item_selection.crossfade,
   },
   {
     name = "select_edit_in_dst",
@@ -164,11 +174,15 @@ for _, param in ipairs(config.params) do
 
     if self.enum then
       local name = self.enum._nameof[config[self.name]]
-      -- remove trailing underscores
-      while #name > 0 and name:sub(#name) == "_" do
-        name = name:sub(1, #name-1)
+      if name == nil then
+        self.value_str = tostring("<"..config[self.name]..">")
+      else
+        -- remove trailing underscores
+        while #name > 0 and name:sub(#name) == "_" do
+          name = name:sub(1, #name-1)
+        end
+        self.value_str = name:gsub("_", " ")
       end
-      self.value_str = name
     else
       self.value_str = tostring(config[self.name])
     end
@@ -186,9 +200,11 @@ for _, param in ipairs(config.params) do
       if self.value == nil then
         self:set(self.default)
       else
-        local idx = self.enum._idxof[self.value] + 1
-        if idx > #self.enum._values then
+        local idx = self.enum._idxof[self.value]
+        if idx == nil or idx == #self.enum._values then
           idx = 1
+        else
+          idx = idx + 1
         end
         self:set(self.enum._values[idx])
       end

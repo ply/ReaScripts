@@ -1,6 +1,6 @@
 --[[
 @description Source-Destination edit
-@version 1.5.0
+@version 1.6.0
 @author Paweł Łyżwa (ply)
 @about
   # Source-Destination edit
@@ -27,10 +27,7 @@
 
   Use `Source-Destination configuration` script for customization.
 @changelog
-  - add an option to move the cursor to the start of the edit
-  - fix the cursor not being placed at the end of the edit when the user requests it
-  - change how configuration toggles are handled internally
-  - minor wording changes and fixes
+  - add an option to select only new items in the destination project
 @provides
   [main] ply_Source-Destination edit.lua
   [main] ply_Source-Destination setup.lua
@@ -91,6 +88,28 @@ end
 --------------------------------------------------------------------------------
 local function set_selected_tracks (selected_tracks)
   for _, track in ipairs(selected_tracks) do reaper.SetTrackSelected(track, true) end
+end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local function get_selected_items (proj)
+  local selected_items = {}
+  for i = 0, reaper.CountMediaItems(proj) - 1 do
+      local item = reaper.GetMediaItem(proj, i)
+      if reaper.GetMediaItemInfo_Value(item, "B_UISEL") == 1 then -- if selected in arrange view
+        table.insert(selected_items, item)
+    end
+  end
+  return selected_items
+end
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+local function set_selected_items (proj, items)
+  reaper.SelectAllMediaItems(proj, false)
+  for _, item in ipairs(items) do
+    reaper.SetMediaItemSelected(item, true)
+  end
 end
 
 
@@ -223,6 +242,7 @@ local function main()
 
     -- IN DESTINATION PROJECT ----------------------------------------------------
     reaper.SelectProjectInstance(dst_proj)
+    local item_selection = nil
 
     -- store track selection and cursor position
     local selected_tracks = get_selected_tracks(dst_proj)
@@ -231,6 +251,9 @@ local function main()
     reaper.SelectProjectInstance(dst_proj)
     reaper.Undo_BeginBlock2(dst_proj)
     local start, end_ = paste_items(dst_proj, src_length)
+    if config.item_selection == config.enums.item_selection.new_items then
+      item_selection = get_selected_items(dst_proj)
+    end
     -- crossfades
     make_crossfade(dst_proj, end_, config._xfade_len)
     make_crossfade(dst_proj, start, config._xfade_len) -- selects edited items
@@ -260,6 +283,10 @@ local function main()
 
     -- recall track selection
     set_selected_tracks(selected_tracks)
+    -- select items if needed
+    if item_selection then
+      set_selected_items(dst_proj, item_selection)
+    end
 
     reaper.Undo_EndBlock2(dst_proj, "Source-Destination edit", -1)
     reaper.MarkProjectDirty(dst_proj)
