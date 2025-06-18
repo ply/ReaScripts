@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="ply Scripts" commit="c6272281b98d970362e8ec526d78075b343c1e14">
+<index version="1" name="ply Scripts" commit="f0a200c612b3618b2ab2f2079d4ca518b34992da">
   <category name="Items Editing">
     <reapack name="ply_Synchronize and heal selected items.lua" type="script" desc="Synchronize and heal selected media items">
       <version name="0.2.1" author="Paweł Łyżwa (ply)" time="2020-12-19T13:51:52Z">
@@ -69,6 +69,14 @@ pelleke's actions
         <source main="main" file="ply_Source-Destination configuration.lua">https://github.com/ply/ReaScripts/raw/66bbf987bd4dfb9dc8080f6bcdb12179640b3628/Items%20Editing/Source-Destination/ply_Source-Destination%20configuration.lua</source>
         <source file="config.lua">https://github.com/ply/ReaScripts/raw/66bbf987bd4dfb9dc8080f6bcdb12179640b3628/Items%20Editing/Source-Destination/config.lua</source>
         <source file="gfxu.lua">https://github.com/ply/ReaScripts/raw/66bbf987bd4dfb9dc8080f6bcdb12179640b3628/Items%20Editing/Source-Destination/gfxu.lua</source>
+      </version>
+      <version name="1.6.0" author="Paweł Łyżwa (ply)" time="2025-06-18T21:20:11Z">
+        <changelog><![CDATA[- add an option to select only new items in the destination project]]></changelog>
+        <source main="main">https://github.com/ply/ReaScripts/raw/f0a200c612b3618b2ab2f2079d4ca518b34992da/Items%20Editing/Source-Destination/ply_Source-Destination%20edit.lua</source>
+        <source main="main" file="ply_Source-Destination setup.lua">https://github.com/ply/ReaScripts/raw/f0a200c612b3618b2ab2f2079d4ca518b34992da/Items%20Editing/Source-Destination/ply_Source-Destination%20setup.lua</source>
+        <source main="main" file="ply_Source-Destination configuration.lua">https://github.com/ply/ReaScripts/raw/f0a200c612b3618b2ab2f2079d4ca518b34992da/Items%20Editing/Source-Destination/ply_Source-Destination%20configuration.lua</source>
+        <source file="config.lua">https://github.com/ply/ReaScripts/raw/f0a200c612b3618b2ab2f2079d4ca518b34992da/Items%20Editing/Source-Destination/config.lua</source>
+        <source file="gfxu.lua">https://github.com/ply/ReaScripts/raw/f0a200c612b3618b2ab2f2079d4ca518b34992da/Items%20Editing/Source-Destination/gfxu.lua</source>
       </version>
     </reapack>
   </category>
