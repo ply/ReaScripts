@@ -19,6 +19,7 @@ Please send code contributions as [pull requests](https://github.com/ply/ReaScri
 
 Items Editing:
  - Source-Destination edit (package)
+ - Add empty items on selected tracks within time selection
  - Synchronize and heal selected items
 
 Items Properties:
