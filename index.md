@@ -26,6 +26,7 @@ Items Properties:
  - Export positions of selected items to clipboard (in TSV format)
 
 Markers:
+ - Delete marker (1-10)
  - Insert marker with ID larger than 10 at playback position (dialog)
 
 Time Selection:
